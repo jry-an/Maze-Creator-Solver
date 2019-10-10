@@ -49,7 +49,7 @@ private int WEST = Maze.WEST;
 
 
 		if (r >= 0 && r < maze.sizeR && c >=0 && c < maze.sizeC ) {
-			System.out.println(maze.map[r][c].r);
+			System.out.println(maze.map[r][c].r + "," + maze.map[r][c].c);
 			Cell north = new Cell(r-1, c);
 			Cell south = new Cell(r+1, c);
 			Cell east = new Cell(r, c-1);
