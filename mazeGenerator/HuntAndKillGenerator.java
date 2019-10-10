@@ -68,7 +68,7 @@ private int WEST = Maze.WEST;
 				noAvaiableCoord = true;
 			}
 
-			if (noAvaiableCoord = false) {
+			if (!noAvaiableCoord) {
 				walk(maze,nextR,nextC);
 			}
 
