@@ -1,7 +1,6 @@
 package mazeGenerator;
 
 import maze.Maze;
-import maze.Cell;
 import java.util.*;
 
 //import maze.Cell;
@@ -18,18 +17,22 @@ public class HuntAndKillGenerator implements MazeGenerator {
 
 
 //	private List<Cell> visited;
-private Cell[][] visited;
+private boolean[][] visited;
+int NORTH = Maze.NORTH;
+int SOUTH = Maze.SOUTH;
+int EAST = Maze.EAST;
+int WEST = Maze.WEST:
 
 	@Override
 	public void generateMaze(Maze maze) {
 		// TODO Auto-generated method stub
 
 		Random random = new Random();
-		int startingR = random.nextInt(maze.sizeR);
-		int startingC = random.nextInt(maze.sizeC);
 
 		//loop
-			walk(maze,startingR,startingC);
+		int row = random.nextInt(4);
+		int col = random.nextInt(4);
+			walk(maze,row,col);
 			hunt(maze);
 			//end loop
 
@@ -38,6 +41,47 @@ private Cell[][] visited;
 	//i created this
 	private void walk(Maze maze, int r,int c){
 
+		boolean noAvaiableCoord = false;
+		int nextR = 0;
+		int nextC = 0;
+
+		if (r >= 0 && r < maze.sizeR && c >=0 && c < maze.sizeC ) {
+
+			visited[r][c] = true;
+
+			List<Integer> direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
+			Collections.shuffle(direction);
+			int walkDirection = direction.get(0);
+
+
+			if (walkDirection == NORTH && r > 0 && !visited[r - 1][c]) {
+				nextR = r - 1;
+				nextC = c;
+				maze.map[r - 1][c].wall[NORTH].present = false;
+
+			} else if (walkDirection == SOUTH && r < maze.sizeR) {
+				//SOUTH
+			} else if (walkDirection == EAST && c > 0) {
+				//EAST
+			} else if(walkDirection == WEST && c < maze.sizeR) {
+				//WEST
+			} else {
+				noAvaiableCoord = true;
+			}
+
+			if (noAvaiableCoord = false) {
+				walk(maze,nextR,nextC);
+			}
+
+		}
+
+
+
+		}
+
+
+
+//		maze.map[0][0].neigh
 	}
 	//i created this
 	private void hunt(Maze maze) {
