@@ -74,15 +74,8 @@ int WEST = Maze.WEST:
 			}
 
 		}
+}
 
-
-
-		}
-
-
-
-//		maze.map[0][0].neigh
-	}
 	//i created this
 	private void hunt(Maze maze) {
 	}
