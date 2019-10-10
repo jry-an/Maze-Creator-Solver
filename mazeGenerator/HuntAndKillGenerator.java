@@ -1,5 +1,6 @@
 package mazeGenerator;
 
+import maze.Cell;
 import maze.Maze;
 import java.util.*;
 
@@ -42,10 +43,34 @@ private int WEST = Maze.WEST;
 	private void walk(Maze maze, int r,int c){
 
 		boolean noAvaiableCoord = false;
-		int nextR = 0;
-		int nextC = 0;
+		int nextR = r;
+		int nextC = c;
+
+
 
 		if (r >= 0 && r < maze.sizeR && c >=0 && c < maze.sizeC ) {
+			System.out.println(maze.map[r][c].r);
+			Cell north = new Cell(r-1, c);
+			Cell south = new Cell(r+1, c);
+			Cell east = new Cell(r, c-1);
+			Cell west = new Cell(r, c+1);
+
+			maze.map[r][c].neigh[NORTH] = north;
+			int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
+			int northNeighbourC = maze.map[r][c].neigh[NORTH].c;
+
+			maze.map[r][c].neigh[SOUTH] = south;
+			int southNeighbourR = maze.map[r][c].neigh[SOUTH].r;
+			int southNeighbourC = maze.map[r][c].neigh[SOUTH].c;
+
+			maze.map[r][c].neigh[EAST] = east;
+			int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
+			int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
+
+			maze.map[r][c].neigh[WEST] = west;
+			int westNeighbourR = maze.map[r][c].neigh[WEST].r;
+			int westNeighbourC = maze.map[r][c].neigh[WEST].c;
+
 
 			visited[r][c] = true;
 
@@ -53,17 +78,30 @@ private int WEST = Maze.WEST;
 			int walkDirection = direction.get(0);
 
 
-			if (walkDirection == NORTH && r > 0 && !visited[r - 1][c]) {
-				nextR = r - 1;
-				nextC = c;
-				maze.map[r - 1][c].wall[NORTH].present = false;
+			if (walkDirection == NORTH && r > 0 && !visited[northNeighbourR][northNeighbourC]) {
+				nextR = northNeighbourR;
+				nextC = northNeighbourC;
+				maze.map[r][c].wall[NORTH].present = false;
+				maze.map[northNeighbourR][northNeighbourC].wall[SOUTH].present = false;
 
-			} else if (walkDirection == SOUTH && r < maze.sizeR) {
+			} else if (walkDirection == SOUTH && r < maze.sizeR-1 && !visited[southNeighbourR][southNeighbourC] ) {
 				//SOUTH
+				nextR = southNeighbourR;
+				nextC = southNeighbourC;
+				maze.map[r][c].wall[SOUTH].present = false;
+				maze.map[southNeighbourC][southNeighbourC].wall[NORTH].present = false;
 			} else if (walkDirection == EAST && c > 0) {
 				//EAST
+				nextR = eastNeighbourR;
+				nextC = eastNeighbourC;
+				maze.map[r][c].wall[EAST].present = false;
+				maze.map[eastNeighbourC][eastNeighbourR].wall[WEST].present = false;
 			} else if(walkDirection == WEST && c < maze.sizeR) {
 				//WEST
+				nextR = westNeighbourR;
+				nextC = westNeighbourC;
+				maze.map[r][c].wall[WEST].present = false;
+				maze.map[northNeighbourR][northNeighbourC].wall[EAST].present = false;
 			} else {
 				noAvaiableCoord = true;
 			}
