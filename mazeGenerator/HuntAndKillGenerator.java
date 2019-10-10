@@ -3,8 +3,6 @@ package mazeGenerator;
 import maze.Maze;
 import java.util.*;
 
-//import maze.Cell;
-
 import java.util.List;
 
 public class HuntAndKillGenerator implements MazeGenerator {
@@ -22,19 +20,18 @@ private int EAST = Maze.EAST;
 private int WEST = Maze.WEST;
 
 	private boolean[][] visited;
-
+	private List<Integer> direction;
 
 	@Override
 	public void generateMaze(Maze maze) {
 		// TODO Auto-generated method stub
 		visited = new boolean[maze.sizeR][maze.sizeC];
-
-
-		Random random = new Random();
+		direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
 
 		//loop
-		int row = random.nextInt(4);
-		int col = random.nextInt(4);
+		int row = maze.entrance.r;
+		int col = maze.entrance.c;
+
 			walk(maze,row,col);
 			hunt(maze);
 			//end loop
@@ -52,7 +49,6 @@ private int WEST = Maze.WEST;
 
 			visited[r][c] = true;
 
-			List<Integer> direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
 			Collections.shuffle(direction);
 			int walkDirection = direction.get(0);
 
