@@ -15,17 +15,20 @@ public class HuntAndKillGenerator implements MazeGenerator {
 //	3.Enter “hunt” mode, where you scan the grid looking for an unvisited cell that is adjacent to a visited cell. If found, carve a passage between the two and let the formerly unvisited cell be the new starting location.
 //	4. Repeat steps 2 and 3 until the hunt mode scans the entire grid and finds no unvisited cells.
 
-
 //	private List<Cell> visited;
-private boolean[][] visited;
-int NORTH = Maze.NORTH;
-int SOUTH = Maze.SOUTH;
-int EAST = Maze.EAST;
-int WEST = Maze.WEST:
+private int NORTH = Maze.NORTH;
+private int SOUTH = Maze.SOUTH;
+private int EAST = Maze.EAST;
+private int WEST = Maze.WEST;
+
+	private boolean[][] visited;
+
 
 	@Override
 	public void generateMaze(Maze maze) {
 		// TODO Auto-generated method stub
+		visited = new boolean[maze.sizeR][maze.sizeC];
+
 
 		Random random = new Random();
 
