@@ -153,18 +153,26 @@ private int WEST = Maze.WEST;
 	private boolean checkSpots(Maze maze,int r,int c){
 		//check north
 		if (r > 0) {
-			return !visited[r - 1][c];
+			if (!visited[r - 1][c]){
+				return true;
+			}
 		}
 			if (r < maze.sizeR-1){
-					return !visited[r +1][c];
+					if( !visited[r +1][c]){
+						return true;
+					}
 			}
 
 		if (c > 0) {
-				return !visited[r][c-1];
+				if( !visited[r][c-1]){
+					return true;
+				}
 			}
 
-		if (c < maze.sizeC){
-			return !visited[r][c + 1];
+		if (c < maze.sizeC-1){
+			if (!visited[r][c + 1]){
+				return true;
+			}
 		}
 		//check south
 		//check east
