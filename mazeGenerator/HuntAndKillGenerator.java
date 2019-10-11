@@ -78,9 +78,6 @@ private int WEST = Maze.WEST;
 
 			Random rand = new Random();
 			int walkDirection = direction.get(rand.nextInt(direction.size()));
-			System.out.println("walk direction = " + walkDirection);
-
-			System.out.println("checkSpots = " + checkSpots(maze, r, c));
 
 			if (checkSpots(maze, r, c)) {
 				switch (walkDirection) {
@@ -90,7 +87,7 @@ private int WEST = Maze.WEST;
 							if (!visited[northNeighbourR][northNeighbourC]) {
 								nextR = northNeighbourR;
 								nextC = northNeighbourC;
-								maze.map[r][c].wall[NORTH].present = false;
+								maze.map[r][c].wall[SOUTH].present = false;
 //					maze.map[northNeighbourR][northNeighbourC].wall[SOUTH].present = false;
 								maze.drawFtPrt(current);
 							}
@@ -102,7 +99,7 @@ private int WEST = Maze.WEST;
 							if (!visited[southNeighbourR][southNeighbourC]) {
 								nextR = southNeighbourR;
 								nextC = southNeighbourC;
-								maze.map[r][c].wall[SOUTH].present = false;
+								maze.map[r][c].wall[NORTH].present = false;
 //					maze.map[southNeighbourC][southNeighbourC].wall[NORTH].present = false;
 								maze.drawFtPrt(current);
 
@@ -117,7 +114,7 @@ private int WEST = Maze.WEST;
 							if (!visited[eastNeighbourR][eastNeighbourC]) {
 								nextR = eastNeighbourR;
 								nextC = eastNeighbourC;
-								maze.map[r][c].wall[EAST].present = false;
+								maze.map[r][c].wall[WEST].present = false;
 //					maze.map[eastNeighbourC][eastNeighbourR].wall[WEST].present = false;
 								maze.drawFtPrt(current);
 
@@ -132,7 +129,7 @@ private int WEST = Maze.WEST;
 							if (!visited[westNeighbourR][westNeighbourC]) {
 								nextR = westNeighbourR;
 								nextC = westNeighbourC;
-								maze.map[r][c].wall[WEST].present = false;
+								maze.map[r][c].wall[EAST].present = false;
 //				maze.map[northNeighbourR][northNeighbourC].wall[EAST].present = false;
 								maze.drawFtPrt(current);
 
@@ -141,15 +138,6 @@ private int WEST = Maze.WEST;
 						break;
 				}
 				walk(maze, nextR, nextC);
-
-			} else {
-				System.out.println("final dest is: " + r + "," +  c);
-				System.out.println(r +1 + "," + c + " is " + visited[r+1][c]);
-				System.out.println(r -1 + "," + c + " is " + visited[r-1][c]);
-				System.out.println(r + "," + (c+1) + " is " + visited[r][c+1]);
-				System.out.println(r + "," + (c-1) + " is " + visited[r][c-1]);
-
-
 
 			}
 		}
