@@ -142,6 +142,15 @@ private int WEST = Maze.WEST;
 				}
 				walk(maze, nextR, nextC);
 
+			} else {
+				System.out.println("final dest is: " + r + "," +  c);
+				System.out.println(r +1 + "," + c + " is " + visited[r+1][c]);
+				System.out.println(r -1 + "," + c + " is " + visited[r-1][c]);
+				System.out.println(r + "," + (c+1) + " is " + visited[r][c+1]);
+				System.out.println(r + "," + (c-1) + " is " + visited[r][c-1]);
+
+
+
 			}
 		}
 	}
