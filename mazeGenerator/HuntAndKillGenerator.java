@@ -174,9 +174,6 @@ private int WEST = Maze.WEST;
 				return true;
 			}
 		}
-		//check south
-		//check east
-		//check west
 return false;
 	}
 
