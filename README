@@ -3,3 +3,7 @@ javac -cp .:mazeSolver/SampleSolver.jar *.java
 
 To run on server:
 java -cp .:mazeSolver/SampleSolver.jar MazeTester inputFilename n
+
+
+
+java -cp .:mazeSolver/SampleSolver.jar MazeTester example2.para y

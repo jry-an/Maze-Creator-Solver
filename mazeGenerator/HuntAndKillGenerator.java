@@ -50,6 +50,7 @@ private int WEST = Maze.WEST;
 
 		if (r >= 0 && r < maze.sizeR && c >=0 && c < maze.sizeC ) {
 			System.out.println(maze.map[r][c].r + "," + maze.map[r][c].c);
+			Cell current = new Cell(r,c);
 			Cell north = new Cell(r-1, c);
 			Cell south = new Cell(r+1, c);
 			Cell east = new Cell(r, c-1);
@@ -74,34 +75,52 @@ private int WEST = Maze.WEST;
 
 			visited[r][c] = true;
 
-			Collections.shuffle(direction);
-			int walkDirection = direction.get(0);
+			Random rand = new Random();
+			int walkDirection = direction.get(rand.nextInt(direction.size()));
+			System.out.println("walk direction = " + walkDirection);
 
 
-			if (walkDirection == NORTH && r > 0 && !visited[northNeighbourR][northNeighbourC]) {
-				nextR = northNeighbourR;
-				nextC = northNeighbourC;
-				maze.map[r][c].wall[NORTH].present = false;
-				maze.map[northNeighbourR][northNeighbourC].wall[SOUTH].present = false;
+			//NORTH
+			if (walkDirection == NORTH) {
+				if (r > 0 && !visited[northNeighbourR][northNeighbourC]) {
+					nextR = northNeighbourR;
+					nextC = northNeighbourC;
+					maze.map[r][c].wall[NORTH].present = false;
+//					maze.map[northNeighbourR][northNeighbourC].wall[SOUTH].present = false;
+					maze.drawFtPrt(current);
 
-			} else if (walkDirection == SOUTH && r < maze.sizeR-1 && !visited[southNeighbourR][southNeighbourC] ) {
+				}
+
 				//SOUTH
-				nextR = southNeighbourR;
-				nextC = southNeighbourC;
-				maze.map[r][c].wall[SOUTH].present = false;
-				maze.map[southNeighbourC][southNeighbourC].wall[NORTH].present = false;
-			} else if (walkDirection == EAST && c > 0) {
+			} else if (walkDirection == SOUTH) {
+				if ( r < maze.sizeR-1 && !visited[southNeighbourR][southNeighbourC]) {
+					nextR = southNeighbourR;
+					nextC = southNeighbourC;
+					maze.map[r][c].wall[SOUTH].present = false;
+//					maze.map[southNeighbourC][southNeighbourC].wall[NORTH].present = false;
+					maze.drawFtPrt(current);
+				}
+
 				//EAST
-				nextR = eastNeighbourR;
-				nextC = eastNeighbourC;
-				maze.map[r][c].wall[EAST].present = false;
-				maze.map[eastNeighbourC][eastNeighbourR].wall[WEST].present = false;
-			} else if(walkDirection == WEST && c < maze.sizeR) {
+			} else if (walkDirection == EAST) {
+				if (c > 0 && !visited[eastNeighbourR][eastNeighbourC]) {
+					nextR = eastNeighbourR;
+					nextC = eastNeighbourC;
+					maze.map[r][c].wall[EAST].present = false;
+//					maze.map[eastNeighbourC][eastNeighbourR].wall[WEST].present = false;
+					maze.drawFtPrt(current);
+				}
+
 				//WEST
-				nextR = westNeighbourR;
-				nextC = westNeighbourC;
-				maze.map[r][c].wall[WEST].present = false;
-				maze.map[northNeighbourR][northNeighbourC].wall[EAST].present = false;
+			} else if(walkDirection == WEST) {
+				if (c < maze.sizeR -1 && !visited[westNeighbourR][westNeighbourC]) {
+					nextR = westNeighbourR;
+					nextC = westNeighbourC;
+					maze.map[r][c].wall[WEST].present = false;
+//				maze.map[northNeighbourR][northNeighbourC].wall[EAST].present = false;
+					maze.drawFtPrt(current);
+				}
+
 			} else {
 				noAvaiableCoord = true;
 			}
