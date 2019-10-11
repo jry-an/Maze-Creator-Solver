@@ -14,7 +14,6 @@ public class HuntAndKillGenerator implements MazeGenerator {
 //	3.Enter “hunt” mode, where you scan the grid looking for an unvisited cell that is adjacent to a visited cell. If found, carve a passage between the two and let the formerly unvisited cell be the new starting location.
 //	4. Repeat steps 2 and 3 until the hunt mode scans the entire grid and finds no unvisited cells.
 
-//	private List<Cell> visited;
 private int NORTH = Maze.NORTH;
 private int SOUTH = Maze.SOUTH;
 private int EAST = Maze.EAST;
@@ -32,29 +31,27 @@ private int WEST = Maze.WEST;
 		//loop
 		int row = maze.entrance.r;
 		int col = maze.entrance.c;
+		System.out.println(row + "," + col);
 
-			walk(maze,row,col);
+
+		walk(maze,row,col);
 			hunt(maze);
 			//end loop
 
 	} // end of generateMaze()
 
 	//i created this
-	private void walk(Maze maze, int r,int c){
+	private void walk(Maze maze, int r,int c) {
 
-		boolean noAvaiableCoord = false;
 		int nextR = r;
 		int nextC = c;
 
-
-
-		if (r >= 0 && r < maze.sizeR && c >=0 && c < maze.sizeC ) {
-			System.out.println(maze.map[r][c].r + "," + maze.map[r][c].c);
-			Cell current = new Cell(r,c);
-			Cell north = new Cell(r-1, c);
-			Cell south = new Cell(r+1, c);
-			Cell east = new Cell(r, c-1);
-			Cell west = new Cell(r, c+1);
+		if (r >= 0 && r < maze.sizeR && c >= 0 && c < maze.sizeC) {
+			Cell current = new Cell(r, c);
+			Cell north = new Cell(r - 1, c);
+			Cell south = new Cell(r + 1, c);
+			Cell east = new Cell(r, c - 1);
+			Cell west = new Cell(r, c + 1);
 
 			maze.map[r][c].neigh[NORTH] = north;
 			int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
@@ -64,13 +61,17 @@ private int WEST = Maze.WEST;
 			int southNeighbourR = maze.map[r][c].neigh[SOUTH].r;
 			int southNeighbourC = maze.map[r][c].neigh[SOUTH].c;
 
+
 			maze.map[r][c].neigh[EAST] = east;
 			int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
 			int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
 
+
 			maze.map[r][c].neigh[WEST] = west;
 			int westNeighbourR = maze.map[r][c].neigh[WEST].r;
 			int westNeighbourC = maze.map[r][c].neigh[WEST].c;
+			System.out.println("row " + westNeighbourR + " col: " +westNeighbourC);
+
 
 
 			visited[r][c] = true;
@@ -79,61 +80,96 @@ private int WEST = Maze.WEST;
 			int walkDirection = direction.get(rand.nextInt(direction.size()));
 			System.out.println("walk direction = " + walkDirection);
 
+			System.out.println("checkSpots = " + checkSpots(maze, r, c));
 
-			//NORTH
-			if (walkDirection == NORTH) {
-				if (r > 0 && !visited[northNeighbourR][northNeighbourC]) {
-					nextR = northNeighbourR;
-					nextC = northNeighbourC;
-					maze.map[r][c].wall[NORTH].present = false;
+			if (checkSpots(maze, r, c)) {
+				switch (walkDirection) {
+					//2
+					case Maze.NORTH:
+						if (r > 0) {
+							if (!visited[northNeighbourR][northNeighbourC]) {
+								nextR = northNeighbourR;
+								nextC = northNeighbourC;
+								maze.map[r][c].wall[NORTH].present = false;
 //					maze.map[northNeighbourR][northNeighbourC].wall[SOUTH].present = false;
-					maze.drawFtPrt(current);
-
-				}
-
-				//SOUTH
-			} else if (walkDirection == SOUTH) {
-				if ( r < maze.sizeR-1 && !visited[southNeighbourR][southNeighbourC]) {
-					nextR = southNeighbourR;
-					nextC = southNeighbourC;
-					maze.map[r][c].wall[SOUTH].present = false;
+								maze.drawFtPrt(current);
+							}
+						}
+						break;
+						//5
+					case Maze.SOUTH:
+						if (r < maze.sizeR - 1) {
+							if (!visited[southNeighbourR][southNeighbourC]) {
+								nextR = southNeighbourR;
+								nextC = southNeighbourC;
+								maze.map[r][c].wall[SOUTH].present = false;
 //					maze.map[southNeighbourC][southNeighbourC].wall[NORTH].present = false;
-					maze.drawFtPrt(current);
-				}
+								maze.drawFtPrt(current);
 
-				//EAST
-			} else if (walkDirection == EAST) {
-				if (c > 0 && !visited[eastNeighbourR][eastNeighbourC]) {
-					nextR = eastNeighbourR;
-					nextC = eastNeighbourC;
-					maze.map[r][c].wall[EAST].present = false;
+							}
+
+							//EAST
+						}
+						break;
+						//0
+					case Maze.EAST:
+						if (c > 0) {
+							if (!visited[eastNeighbourR][eastNeighbourC]) {
+								nextR = eastNeighbourR;
+								nextC = eastNeighbourC;
+								maze.map[r][c].wall[EAST].present = false;
 //					maze.map[eastNeighbourC][eastNeighbourR].wall[WEST].present = false;
-					maze.drawFtPrt(current);
-				}
+								maze.drawFtPrt(current);
 
-				//WEST
-			} else if(walkDirection == WEST) {
-				if (c < maze.sizeR -1 && !visited[westNeighbourR][westNeighbourC]) {
-					nextR = westNeighbourR;
-					nextC = westNeighbourC;
-					maze.map[r][c].wall[WEST].present = false;
+							}
+
+							//WEST
+						}
+						break;
+						//3
+					case Maze.WEST:
+						if (c < maze.sizeR - 1) {
+							if (!visited[westNeighbourR][westNeighbourC]) {
+								nextR = westNeighbourR;
+								nextC = westNeighbourC;
+								maze.map[r][c].wall[WEST].present = false;
 //				maze.map[northNeighbourR][northNeighbourC].wall[EAST].present = false;
-					maze.drawFtPrt(current);
+								maze.drawFtPrt(current);
+
+							}
+						}
+						break;
 				}
+				walk(maze, nextR, nextC);
 
-			} else {
-				noAvaiableCoord = true;
 			}
-
-			if (!noAvaiableCoord) {
-				walk(maze,nextR,nextC);
-			}
-
 		}
-}
+	}
 
 	//i created this
 	private void hunt(Maze maze) {
+	}
+
+	private boolean checkSpots(Maze maze,int r,int c){
+		//check north
+		if (r > 0) {
+			return !visited[r - 1][c];
+		}
+			if (r < maze.sizeR-1){
+					return !visited[r +1][c];
+			}
+
+		if (c > 0) {
+				return !visited[r][c-1];
+			}
+
+		if (c < maze.sizeC){
+			return !visited[r][c + 1];
+		}
+		//check south
+		//check east
+		//check west
+return false;
 	}
 
 
