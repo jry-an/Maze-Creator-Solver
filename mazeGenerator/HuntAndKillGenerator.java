@@ -3,7 +3,6 @@ package mazeGenerator;
 import maze.Cell;
 import maze.Maze;
 import java.util.*;
-
 import java.util.List;
 
 public class HuntAndKillGenerator implements MazeGenerator {
@@ -21,20 +20,18 @@ private int WEST = Maze.WEST;
 
 	private boolean[][] visited;
 	private List<Integer> direction;
+	private Random rand = new Random();
+
 
 	@Override
 	public void generateMaze(Maze maze) {
-		// TODO Auto-generated method stub
 		visited = new boolean[maze.sizeR][maze.sizeC];
 		direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
 
-		//loop
 		int row = maze.entrance.r;
 		int col = maze.entrance.c;
-		System.out.println(row + "," + col);
-
-
-		walk(maze,row,col);
+		//loop
+			walk(maze, row, col);
 			hunt(maze);
 			//end loop
 
@@ -70,19 +67,15 @@ private int WEST = Maze.WEST;
 			maze.map[r][c].neigh[WEST] = west;
 			int westNeighbourR = maze.map[r][c].neigh[WEST].r;
 			int westNeighbourC = maze.map[r][c].neigh[WEST].c;
-			System.out.println("row " + westNeighbourR + " col: " +westNeighbourC);
-
-
+			System.out.println("row: " + westNeighbourR + " col: " +westNeighbourC);
 
 			visited[r][c] = true;
 
-			Random rand = new Random();
 			int walkDirection = direction.get(rand.nextInt(direction.size()));
 			System.out.println("walk direction = " + walkDirection);
+			System.out.println("checkSpots = " + walkCheckSpots(maze, r, c));
 
-			System.out.println("checkSpots = " + checkSpots(maze, r, c));
-
-			if (checkSpots(maze, r, c)) {
+			if (walkCheckSpots(maze, r, c)) {
 				switch (walkDirection) {
 					//2
 					case Maze.NORTH:
@@ -90,8 +83,7 @@ private int WEST = Maze.WEST;
 							if (!visited[northNeighbourR][northNeighbourC]) {
 								nextR = northNeighbourR;
 								nextC = northNeighbourC;
-								maze.map[r][c].wall[NORTH].present = false;
-//					maze.map[northNeighbourR][northNeighbourC].wall[SOUTH].present = false;
+								maze.map[r][c].wall[SOUTH].present = false;
 								maze.drawFtPrt(current);
 							}
 						}
@@ -102,13 +94,9 @@ private int WEST = Maze.WEST;
 							if (!visited[southNeighbourR][southNeighbourC]) {
 								nextR = southNeighbourR;
 								nextC = southNeighbourC;
-								maze.map[r][c].wall[SOUTH].present = false;
-//					maze.map[southNeighbourC][southNeighbourC].wall[NORTH].present = false;
+								maze.map[r][c].wall[NORTH].present = false;
 								maze.drawFtPrt(current);
-
 							}
-
-							//EAST
 						}
 						break;
 						//0
@@ -117,13 +105,9 @@ private int WEST = Maze.WEST;
 							if (!visited[eastNeighbourR][eastNeighbourC]) {
 								nextR = eastNeighbourR;
 								nextC = eastNeighbourC;
-								maze.map[r][c].wall[EAST].present = false;
-//					maze.map[eastNeighbourC][eastNeighbourR].wall[WEST].present = false;
+								maze.map[r][c].wall[WEST].present = false;
 								maze.drawFtPrt(current);
-
 							}
-
-							//WEST
 						}
 						break;
 						//3
@@ -132,34 +116,118 @@ private int WEST = Maze.WEST;
 							if (!visited[westNeighbourR][westNeighbourC]) {
 								nextR = westNeighbourR;
 								nextC = westNeighbourC;
-								maze.map[r][c].wall[WEST].present = false;
-//				maze.map[northNeighbourR][northNeighbourC].wall[EAST].present = false;
+								maze.map[r][c].wall[EAST].present = false;
 								maze.drawFtPrt(current);
-
 							}
 						}
 						break;
 				}
 				walk(maze, nextR, nextC);
-
-			} else {
-				System.out.println("final dest is: " + r + "," +  c);
-				System.out.println(r +1 + "," + c + " is " + visited[r+1][c]);
-				System.out.println(r -1 + "," + c + " is " + visited[r-1][c]);
-				System.out.println(r + "," + (c+1) + " is " + visited[r][c+1]);
-				System.out.println(r + "," + (c-1) + " is " + visited[r][c-1]);
-
-
-
 			}
 		}
 	}
 
 	//i created this
 	private void hunt(Maze maze) {
+		System.out.println("here");
+
+		int startRow = 0;
+		int r = 0;
+		int c = 0;
+		boolean cellFound = false;
+
+		while(!cellFound){
+			for (r = startRow; r < maze.sizeR-1; r++) {
+				Cell foundCell = huntCheckSpots(maze,r,c);
+
+				if (foundCell != null){
+					System.out.println("found cell " + foundCell.r + " " + foundCell.c);
+				//	System.out.println(foundCell.neigh[NORTH].r + " " + foundCell.neigh[NORTH].c);
+
+					cellFound = true;
+					visited[r][c] = true;
+
+					if (r > 0 && foundCell.r > 0) {
+						maze.map[foundCell.r][foundCell.c].neigh[NORTH] = new Cell(r - 1, c);
+						if (visited[foundCell.r-1][foundCell.c]) {
+							maze.drawFtPrt(foundCell);
+							maze.map[r][c].wall[SOUTH].present = false;
+							break;
+						}
+					}
+					else
+					if (r < maze.sizeR - 1 && foundCell.r < maze.sizeR - 1) {
+						maze.map[foundCell.r][foundCell.c].neigh[SOUTH] = new Cell(r + 1, c);
+						if (visited[foundCell.r+1][foundCell.c]) {
+							maze.drawFtPrt(foundCell);
+							maze.map[r][c].wall[NORTH].present = false;
+							break;
+						}
+					}
+
+					else if (c>0 && foundCell.c > 0) {
+						maze.map[foundCell.r][foundCell.c].neigh[EAST] = new Cell(r, c - 1);
+						if (visited[foundCell.r][foundCell.c-1]) {
+							maze.drawFtPrt(foundCell);
+							maze.map[r][c].wall[WEST].present = false;
+							break;
+						}
+					}
+
+					else if (c < maze.sizeC - 1 && foundCell.c < maze.sizeC - 1) {
+						if (visited[foundCell.r][foundCell.c+1]) {
+							maze.drawFtPrt(foundCell);
+							maze.map[r][c].wall[EAST].present = false;
+							break;
+						}
+					}
+				}
+			}
+			c++;
+		}
+	}
+	private Cell huntCheckSpots(Maze maze,int r,int c){
+
+		int randomCell = direction.get(rand.nextInt(direction.size()));
+
+		//check north
+		switch (randomCell) {
+			case Maze.NORTH:
+			if (r > 0) {
+				if (visited[r - 1][c]) {
+					return new Cell(r - 1, c);
+				}
+			}
+			break;
+			case Maze.SOUTH:
+			if (r < maze.sizeR - 1) {
+				if (visited[r + 1][c]) {
+					return new Cell(r + 1, c);
+				}
+			}
+			break;
+
+			case Maze.EAST:
+			if (c > 0) {
+				if (visited[r][c - 1]) {
+					return new Cell(r, c - 1);
+				}
+			}
+			break;
+
+			case Maze.WEST:
+
+			if (c < maze.sizeC - 1) {
+				if (visited[r][c + 1]) {
+					return new Cell(r, c + 1);
+				}
+			}
+			break;
+		}
+		return null;
 	}
 
-	private boolean checkSpots(Maze maze,int r,int c){
+	private boolean walkCheckSpots(Maze maze,int r,int c){
 		//check north
 		if (r > 0) {
 			if (!visited[r - 1][c]){
