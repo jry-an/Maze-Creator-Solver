@@ -129,60 +129,58 @@ private int WEST = Maze.WEST;
 
 	//i created this
 	private void hunt(Maze maze) {
-		System.out.println("here");
+		System.out.println("HUNT START!");
 
 		int startRow = 0;
 		int r = 0;
 		int c = 0;
 		boolean cellFound = false;
 
-		while(!cellFound){
-			for (r = startRow; r < maze.sizeR-1; r++) {
-				Cell foundCell = huntCheckSpots(maze,r,c);
+		while(!cellFound) {
+				for (r = startRow; r < maze.sizeR - 1; r++) {
+					if (!cellFound) {
+						System.out.println("checking " + r + " " + c);
 
-				if (foundCell != null){
-					System.out.println("found cell " + foundCell.r + " " + foundCell.c);
-				//	System.out.println(foundCell.neigh[NORTH].r + " " + foundCell.neigh[NORTH].c);
+						Cell foundCell = huntCheckSpots(maze, r, c);
 
-					cellFound = true;
-					visited[r][c] = true;
+						if (foundCell != null) {
+							System.out.println("found cell " + foundCell.r + " " + foundCell.c);
+							//	System.out.println(foundCell.neigh[NORTH].r + " " + foundCell.neigh[NORTH].c);
 
-					if (r > 0 && foundCell.r > 0) {
-						maze.map[foundCell.r][foundCell.c].neigh[NORTH] = new Cell(r - 1, c);
-						if (visited[foundCell.r-1][foundCell.c]) {
-							maze.drawFtPrt(foundCell);
-							maze.map[r][c].wall[SOUTH].present = false;
-							break;
-						}
-					}
-					else
-					if (r < maze.sizeR - 1 && foundCell.r < maze.sizeR - 1) {
-						maze.map[foundCell.r][foundCell.c].neigh[SOUTH] = new Cell(r + 1, c);
-						if (visited[foundCell.r+1][foundCell.c]) {
-							maze.drawFtPrt(foundCell);
-							maze.map[r][c].wall[NORTH].present = false;
-							break;
-						}
-					}
+							cellFound = true;
+							visited[r][c] = true;
 
-					else if (c>0 && foundCell.c > 0) {
-						maze.map[foundCell.r][foundCell.c].neigh[EAST] = new Cell(r, c - 1);
-						if (visited[foundCell.r][foundCell.c-1]) {
-							maze.drawFtPrt(foundCell);
-							maze.map[r][c].wall[WEST].present = false;
-							break;
-						}
-					}
-
-					else if (c < maze.sizeC - 1 && foundCell.c < maze.sizeC - 1) {
-						if (visited[foundCell.r][foundCell.c+1]) {
-							maze.drawFtPrt(foundCell);
-							maze.map[r][c].wall[EAST].present = false;
-							break;
+							if (r > 0 && foundCell.r > 0) {
+								maze.map[foundCell.r][foundCell.c].neigh[NORTH] = new Cell(r - 1, c);
+								if (visited[foundCell.r - 1][foundCell.c]) {
+									maze.drawFtPrt(foundCell);
+									maze.map[r][c].wall[SOUTH].present = false;
+									break;
+								}
+							} else if (r < maze.sizeR - 1 && foundCell.r < maze.sizeR - 1) {
+								maze.map[foundCell.r][foundCell.c].neigh[SOUTH] = new Cell(r + 1, c);
+								if (visited[foundCell.r + 1][foundCell.c]) {
+									maze.drawFtPrt(foundCell);
+									maze.map[r][c].wall[NORTH].present = false;
+									break;
+								}
+							} else if (c > 0 && foundCell.c > 0) {
+								maze.map[foundCell.r][foundCell.c].neigh[EAST] = new Cell(r, c - 1);
+								if (visited[foundCell.r][foundCell.c - 1]) {
+									maze.drawFtPrt(foundCell);
+									maze.map[r][c].wall[WEST].present = false;
+									break;
+								}
+							} else if (c < maze.sizeC - 1 && foundCell.c < maze.sizeC - 1) {
+								if (visited[foundCell.r][foundCell.c + 1]) {
+									maze.drawFtPrt(foundCell);
+									maze.map[r][c].wall[EAST].present = false;
+									break;
+								}
+							}
 						}
 					}
 				}
-			}
 			c++;
 		}
 	}
