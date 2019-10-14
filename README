@@ -4,6 +4,8 @@ javac -cp .:mazeSolver/SampleSolver.jar *.java
 To run on server:
 java -cp .:mazeSolver/SampleSolver.jar MazeTester inputFilename n
 
-
-
 java -cp .:mazeSolver/SampleSolver.jar MazeTester example2.para y
+
+
+Link for Report:
+https://docs.google.com/document/d/13huaay4bo_HXiuv7BHwEXVcz3ar9yhENGqwgIbU8BAs/edit?usp=sharing
