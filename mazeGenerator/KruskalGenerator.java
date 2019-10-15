@@ -14,13 +14,10 @@ public class KruskalGenerator implements MazeGenerator {
 	private static  int SOUTH = Maze.SOUTH;
 	private static int EAST = Maze.EAST;
 	private static int WEST = Maze.WEST;
-	private List<Integer> wallDirection;
-	private Random rand;
 
 	@Override
 	public void generateMaze(Maze maze) {
-		rand = new Random();
-		wallDirection = Arrays.asList(NORTH, SOUTH, EAST, WEST);
+		Random rand = new Random();
 		initializeCellId(maze);
 
 		//repeat until all cells the same root id
@@ -29,7 +26,7 @@ public class KruskalGenerator implements MazeGenerator {
 		1. pick random wall
 		2. if the cells next to the wall != same rootId
 			- break down wall
-			- change all cells with that id to with og cell
+			- change all cells with that id, in that tree to the same as original id
 		3. repeat 1 and 2
 		 */
 
