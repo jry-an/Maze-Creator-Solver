@@ -1,4 +1,7 @@
 package maze;
+
+import java.util.ArrayList;
+
 /**
  * 
  * @author Youhan Xia
@@ -18,7 +21,9 @@ public class Cell {
 	 * column coordinate
 	 */
 	public int c;
-	
+
+	public int id;
+
 	/**
 	 * wall[i] is the wall on direction i of the cell
 	 * rectangular cells have 4 walls: wall[0], wall[2], wall[3], wall[5] are EAST, NORTH, WEST, SOUTH walls, respectively (see Maze.java)
