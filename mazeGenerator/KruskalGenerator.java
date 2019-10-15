@@ -24,7 +24,7 @@ public class KruskalGenerator implements MazeGenerator {
 		initializeCellId(maze);
 
 		//repeat until all cells the same root id
-	while(!allCellsSameId(maze)){
+		while(!allCellsSameId(maze)){
 		/*
 		1. pick random wall
 		2. if the cells next to the wall != same rootId
@@ -33,60 +33,65 @@ public class KruskalGenerator implements MazeGenerator {
 		3. repeat 1 and 2
 		 */
 
-		//get random cell
+			//get random cell
 
-		int randR = rand.nextInt(maze.sizeR);
-		int randC = rand.nextInt(maze.sizeC);
-		ArrayList<Integer> listofAvailableWalls = checkSurroundingWalls(maze,randR,randC);
-		int randomWall = listofAvailableWalls.get(rand.nextInt(listofAvailableWalls.size()));
+			int randR = rand.nextInt(maze.sizeR);
+			int randC = rand.nextInt(maze.sizeC);
+			ArrayList<Integer> listofAvailableWalls = checkSurroundingWalls(maze,randR,randC);
+			int randomWall = listofAvailableWalls.get(rand.nextInt(listofAvailableWalls.size()));
 
-		switch (randomWall){
-			case Maze.NORTH:	//r+1
-				if (randR < maze.sizeR) {
+			switch (randomWall){
+				case Maze.NORTH:	//r+1
+					if (randR < maze.sizeR) {
 						maze.map[randR][randC].wall[NORTH].present = false;
 						maze.map[randR][randC].neigh[NORTH].rootId = maze.map[randR][randC].rootId;
+						int northR = maze.map[randR][randC].neigh[NORTH].r;
+						int northC = maze.map[randR][randC].neigh[NORTH].c;
 						//TODO - recurse through neighbour tree, converting ID
-				}
-				break;
-			case Maze.SOUTH:	//r-1
-				if (randR > 0){
+						recurseThroughTree(maze,northR,northC);
+					}
+					break;
+				case Maze.SOUTH:	//r-1
+					if (randR > 0){
 						maze.map[randR][randC].wall[SOUTH].present = false;
 						maze.map[randR][randC].neigh[SOUTH].rootId = maze.map[randR][randC].rootId;
+						int southR = maze.map[randR][randC].neigh[SOUTH].r;
+						int southC = maze.map[randR][randC].neigh[SOUTH].c;
 						//TODO - recurse through neighbour tree, converting ID
-				}
-				break;
-
-				case Maze.EAST:	//c+1
-					if (randC < maze.sizeC) {
-							maze.map[randR][randC].wall[EAST].present = false;
-							maze.map[randR][randC].neigh[EAST].rootId = maze.map[randR][randC].rootId;
-							//TODO - recurse through neighbour tree, converting ID
+						recurseThroughTree(maze,southR,southC);
 					}
 					break;
 
-			case Maze.WEST:	//c-1
-				if (randC > 0){
+				case Maze.EAST:	//c+1
+					if (randC < maze.sizeC) {
+						maze.map[randR][randC].wall[EAST].present = false;
+						maze.map[randR][randC].neigh[EAST].rootId = maze.map[randR][randC].rootId;
+						int eastR = maze.map[randR][randC].neigh[EAST].r;
+						int eastC = maze.map[randR][randC].neigh[EAST].c;
+						//TODO - recurse through neighbour tree, converting ID
+						recurseThroughTree(maze,eastR,eastC);
+					}
+					break;
+
+				case Maze.WEST:	//c-1
+					if (randC > 0){
 						maze.map[randR][randC].wall[WEST].present = false;
 						maze.map[randR][randC].neigh[WEST].rootId = maze.map[randR][randC].rootId;
+						int westR = maze.map[randR][randC].neigh[WEST].r;
+						int westC = maze.map[randR][randC].neigh[WEST].c;
 						//TODO - recurse through neighbour tree, converting ID
-				}
-
-				break;
-
-
-
-
-
-		}
-
-//		if (maze.map[randR][randC].neigh[NORTH].rootId != maze.map[randR][randC].rootId){
-//
-//		}
-
-	}//end loop
+						recurseThroughTree(maze,westR,westC);
+					}
+					break;
+			}
+		}//end loop
 
 
 	} // end of generateMaze()
+
+	private void recurseThroughTree(Maze maze, int r, int c){
+
+	}
 
 	private ArrayList<Integer> checkSurroundingWalls(Maze maze, int r, int c) {
 		ArrayList<Integer> availableDirections = new ArrayList<>();
