@@ -128,15 +128,20 @@ public class NormalMaze extends Maze {
 					queue.add(nextCell);							// if nextCell is valid and there's no wall, add nextCell to the queue
 			}
 			
-			if (visitedNeigh > 1)									// if there are two neighbors of currCell that have been visited before, there's a cycle and the maze is not perfect
+			if (visitedNeigh > 1) {                                    // if there are two neighbors of currCell that have been visited before, there's a cycle and the maze is not perfect
+				System.out.println("mulitple neighbours");
 				return false;
+			}
 		}
 		
-		for (int i = 0; i < sizeR; i++)		// checking if all cells have been visited by the BFS, if no, return false (not perfect)
-			for (int j = 0; j < sizeC; j++)
-				if (!visited[i][j])
+		for (int i = 0; i < sizeR; i++)	{	// checking if all cells have been visited by the BFS, if no, return false (not perfect)
+			for (int j = 0; j < sizeC; j++) {
+				if (!visited[i][j]) {
+					System.out.println("all visited == false" + i + "," + j );
 					return false;
-		
+				}
+			}
+		}
 		return true;
 	} // end of isPerfect()
 
