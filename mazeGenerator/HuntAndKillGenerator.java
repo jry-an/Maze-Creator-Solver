@@ -35,6 +35,8 @@ private int WEST = Maze.WEST;
 		maze.map[row][col].wall[NORTH].present = false;
 		maze.map[exitRow][exitCol].wall[SOUTH].present = false;
 
+		//TODO - fix north south east west - they are the wrong way
+
 		//loop
 		while(!allVisited(maze)) {
 			walk(maze, row, col);
