@@ -24,3 +24,4 @@ hs_err_pid*
 *.xml
 .idea/$PRODUCT_WORKSPACE_FILE$
 /out/
+.idea/
