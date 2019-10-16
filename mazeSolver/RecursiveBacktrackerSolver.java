@@ -46,6 +46,7 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 	private void explore(Maze maze, int r, int c, List<Cell> path){
 		Random rand = new Random();
 		path.add(path.size(),new Cell(r,c));
+		maze.drawFtPrt(new Cell(r,c));
 		cellsExplored++;
 		visited[r][c] = true;
 
