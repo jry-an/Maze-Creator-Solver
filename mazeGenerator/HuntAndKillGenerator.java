@@ -28,6 +28,7 @@ private int WEST = Maze.WEST;
 		//initialize visited 2D array + direction list
 		visited = new boolean[maze.sizeR][maze.sizeC];
 		direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
+		setNeighbours(maze);
 
 		//set starting walk to entrance
 		int row = maze.entrance.r;
@@ -48,6 +49,7 @@ private int WEST = Maze.WEST;
 			}
 		}//end loop
 
+		System.out.println("0,0 visited status: " + visited[0][0]);
 	} // end of generateMaze()
 
 	//i created this
@@ -58,28 +60,17 @@ private int WEST = Maze.WEST;
 
 		//cell is in bound of maze map
 		if (r >= 0 && r < maze.sizeR && c >= 0 && c < maze.sizeC) {
-			Cell current = new Cell(r, c);
-			Cell north = new Cell(r + 1, c);
-			Cell south = new Cell(r - 1, c);
-			Cell east = new Cell(r, c + 1);
-			Cell west = new Cell(r, c - 1);
-
-			//set neighbour cells
-			maze.map[r][c].neigh[NORTH] = north;
 			int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
 			int northNeighbourC = maze.map[r][c].neigh[NORTH].c;
 
-			maze.map[r][c].neigh[SOUTH] = south;
 			int southNeighbourR = maze.map[r][c].neigh[SOUTH].r;
 			int southNeighbourC = maze.map[r][c].neigh[SOUTH].c;
 
 
-			maze.map[r][c].neigh[EAST] = east;
 			int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
 			int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
 
 
-			maze.map[r][c].neigh[WEST] = west;
 			int westNeighbourR = maze.map[r][c].neigh[WEST].r;
 			int westNeighbourC = maze.map[r][c].neigh[WEST].c;
 
@@ -162,6 +153,7 @@ private int WEST = Maze.WEST;
 
 		while(!cellFound && c < 50) {
 				for (r = startRow; r < maze.sizeR; r++) {
+
 					if (!cellFound) {
 
 						Cell foundCell = huntCheckSpots(maze, r, c);
@@ -275,16 +267,39 @@ private int WEST = Maze.WEST;
 return false;
 	}
 
-	private boolean allVisited(Maze maze){
-		for (int r = 0; r < maze.sizeR; r++) {
-			for (int c = 0; c < maze.sizeC; c++) {
-				if (!visited[r][c]){
-					return false;
-				}
+	private boolean allVisited(Maze maze) {
+		int c = 0;
+		while (c < maze.sizeC) {
+			for (int r = 0; r < maze.sizeR; r++) {
+					if (!visited[r][c]) {
+						return false;
+					}
 			}
+			c++;
 		}
 		return true;
 	}
+
+	private void setNeighbours(Maze maze){
+
+		int c = 0;
+		while (c < maze.sizeC) {
+			for (int r = 0; r < maze.sizeR; r++) {
+				Cell north = new Cell(r + 1, c);
+				Cell south = new Cell(r - 1, c);
+				Cell east = new Cell(r, c + 1);
+				Cell west = new Cell(r, c - 1);
+				//set neighbour cells
+				maze.map[r][c].neigh[NORTH] = north;
+				maze.map[r][c].neigh[SOUTH] = south;
+				maze.map[r][c].neigh[EAST] = east;
+				maze.map[r][c].neigh[WEST] = west;
+			}
+			c++;
+		}
+
+	}
+
 
 
 
