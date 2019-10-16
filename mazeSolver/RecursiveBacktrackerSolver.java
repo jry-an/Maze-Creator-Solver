@@ -24,7 +24,7 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 
 	@Override
 	public void solveMaze(Maze maze) {
-		int cellsExplored = 0;
+		cellsExplored = 0;
 		solved = false;
 		visited = new boolean[maze.sizeR][maze.sizeC];
 		List<Cell> path = new ArrayList<>();
