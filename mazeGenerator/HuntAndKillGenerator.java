@@ -306,8 +306,4 @@ return false;
 		}
 
 	}
-
-
-
-
 } // end of class HuntAndKillGenerator
