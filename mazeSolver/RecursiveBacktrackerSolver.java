@@ -66,16 +66,16 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 
 	private List<Cell> getNextValidCell(Maze maze, int r , int c){
 		List<Cell> possibleCells = new ArrayList<>();
-		if (!maze.map[r][c].wall[NORTH].present){
+		if (!maze.map[r][c].wall[NORTH].present && !visited[maze.map[r][c].neigh[NORTH].r][maze.map[r][c].neigh[NORTH].c]){
 			possibleCells.add(maze.map[r][c].neigh[NORTH]);
 		}
-		if (!maze.map[r][c].wall[SOUTH].present){
+		if (!maze.map[r][c].wall[SOUTH].present && !visited[maze.map[r][c].neigh[SOUTH].r][maze.map[r][c].neigh[SOUTH].c]){
 			possibleCells.add(maze.map[r][c].neigh[SOUTH]);
 		}
-		if (!maze.map[r][c].wall[EAST].present){
+		if (!maze.map[r][c].wall[EAST].present && !visited[maze.map[r][c].neigh[EAST].r][maze.map[r][c].neigh[EAST].c]){
 			possibleCells.add(maze.map[r][c].neigh[EAST]);
 		}
-		if (!maze.map[r][c].wall[WEST].present){
+		if (!maze.map[r][c].wall[WEST].present && !visited[maze.map[r][c].neigh[WEST].r][maze.map[r][c].neigh[WEST].c]){
 			possibleCells.add(maze.map[r][c].neigh[WEST]);
 		}
 		return possibleCells;
