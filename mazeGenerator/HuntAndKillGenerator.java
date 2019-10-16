@@ -29,6 +29,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		visited = new boolean[maze.sizeR][maze.sizeC];
 		direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
 		initializeVisited(maze);
+		setNeighbours(maze);
 
 		//set starting walk to entrance
 		int row = maze.entrance.r;
@@ -49,6 +50,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 			}
 		}//end loop
 
+		System.out.println("0,0 visited status: " + visited[0][0]);
 	} // end of generateMaze()
 
 	//i created this
@@ -59,28 +61,17 @@ public class HuntAndKillGenerator implements MazeGenerator {
 
 		//cell is in bound of maze map
 		if (r >= 0 && r < maze.sizeR && c >= 0 && c < maze.sizeC) {
-			Cell current = new Cell(r, c);
-			Cell north = new Cell(r + 1, c);
-			Cell south = new Cell(r - 1, c);
-			Cell east = new Cell(r, c + 1);
-			Cell west = new Cell(r, c - 1);
-
-			//set neighbour cells
-			maze.map[r][c].neigh[NORTH] = north;
 			int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
 			int northNeighbourC = maze.map[r][c].neigh[NORTH].c;
 
-			maze.map[r][c].neigh[SOUTH] = south;
 			int southNeighbourR = maze.map[r][c].neigh[SOUTH].r;
 			int southNeighbourC = maze.map[r][c].neigh[SOUTH].c;
 
 
-			maze.map[r][c].neigh[EAST] = east;
 			int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
 			int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
 
 
-			maze.map[r][c].neigh[WEST] = west;
 			int westNeighbourR = maze.map[r][c].neigh[WEST].r;
 			int westNeighbourC = maze.map[r][c].neigh[WEST].c;
 
@@ -163,14 +154,6 @@ public class HuntAndKillGenerator implements MazeGenerator {
 
 		while(!cellFound && c < maze.sizeC) {
 				for (r = startRow; r < maze.sizeR; r++) {
-					Cell north = new Cell(r + 1, c);
-					Cell south = new Cell(r - 1, c);
-					Cell east = new Cell(r, c + 1);
-					Cell west = new Cell(r, c - 1);
-					maze.map[r][c].neigh[NORTH] = north;
-					maze.map[r][c].neigh[SOUTH] = south;
-					maze.map[r][c].neigh[EAST] = east;
-					maze.map[r][c].neigh[WEST] = west;
 					if (!cellFound) {
 
 						Cell foundCell = huntCheckSpots(maze, r, c);
@@ -281,13 +264,13 @@ public class HuntAndKillGenerator implements MazeGenerator {
 return false;
 	}
 
-	private boolean allVisited(Maze maze){
+	private boolean allVisited(Maze maze) {
 		int c = 0;
-		while(c<maze.sizeC) {
+		while (c < maze.sizeC) {
 			for (int r = 0; r < maze.sizeR; r++) {
-				if (!visited[r][c]) {
-					return false;
-				}
+					if (!visited[r][c]) {
+						return false;
+					}
 			}
 			c++;
 		}
@@ -303,6 +286,27 @@ return false;
 			c++;
 		}
 	}
+
+	private void setNeighbours(Maze maze){
+
+		int c = 0;
+		while (c < maze.sizeC) {
+			for (int r = 0; r < maze.sizeR; r++) {
+				Cell north = new Cell(r + 1, c);
+				Cell south = new Cell(r - 1, c);
+				Cell east = new Cell(r, c + 1);
+				Cell west = new Cell(r, c - 1);
+				//set neighbour cells
+				maze.map[r][c].neigh[NORTH] = north;
+				maze.map[r][c].neigh[SOUTH] = south;
+				maze.map[r][c].neigh[EAST] = east;
+				maze.map[r][c].neigh[WEST] = west;
+			}
+			c++;
+		}
+
+	}
+
 
 
 
