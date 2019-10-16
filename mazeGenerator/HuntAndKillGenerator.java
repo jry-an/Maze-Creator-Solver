@@ -25,19 +25,24 @@ public class HuntAndKillGenerator implements MazeGenerator {
 
 	@Override
 	public void generateMaze(Maze maze) {
+		//initialize visited 2D array + direction list
 		visited = new boolean[maze.sizeR][maze.sizeC];
 		direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
 		initializeVisited(maze);
 
+		//set starting walk to entrance
 		int row = maze.entrance.r;
 		int col = maze.entrance.c;
+		int exitRow = maze.exit.r;
+		int exitCol = maze.exit.c;
 //		maze.map[row][col].wall[NORTH].present = false;
 //		maze.map[exitRow][exitCol].wall[SOUTH].present = false;
 
-		//loop
+		//loop until every cell in visited 2D array is visited
 		while(!allVisited(maze)) {
 			walk(maze, row, col);
 			Cell nextWalk = hunt(maze);
+			//set walk row and col to result of hunt
 			if (nextWalk != null) {
 				row = nextWalk.r;
 				col = nextWalk.c;
@@ -52,6 +57,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		int nextR = r;
 		int nextC = c;
 
+		//cell is in bound of maze map
 		if (r >= 0 && r < maze.sizeR && c >= 0 && c < maze.sizeC) {
 			Cell current = new Cell(r, c);
 			Cell north = new Cell(r + 1, c);
@@ -59,6 +65,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 			Cell east = new Cell(r, c + 1);
 			Cell west = new Cell(r, c - 1);
 
+			//set neighbour cells
 			maze.map[r][c].neigh[NORTH] = north;
 			int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
 			int northNeighbourC = maze.map[r][c].neigh[NORTH].c;
@@ -77,12 +84,15 @@ public class HuntAndKillGenerator implements MazeGenerator {
 			int westNeighbourR = maze.map[r][c].neigh[WEST].r;
 			int westNeighbourC = maze.map[r][c].neigh[WEST].c;
 
+			//set current cell to visited
 			visited[r][c] = true;
 
+			//pick a random direction to walk to
 			int walkDirection = direction.get(rand.nextInt(direction.size()));
 //			System.out.println("walk direction = " + walkDirection);
 //			System.out.println("checkSpots = " + walkCheckSpots(maze, r, c));
 
+			//if there is a spot neighbour coord available continue
 			if (walkCheckSpots(maze, r, c)) {
 				switch (walkDirection) {
 					//2
@@ -132,6 +142,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 						}
 						break;
 				}
+				//once moved cell, call walk again. this is recursed until there are no possible neighbours
 				walk(maze, nextR, nextC);
 			}
 		}
@@ -169,29 +180,33 @@ public class HuntAndKillGenerator implements MazeGenerator {
 							if (foundCell.r == r+1 && foundCell.c == c) {
 								System.out.println("north");
 								if (visited[foundCell.r][foundCell.c] && !visited[r][c]) {
-									maze.map[r][c].wall[NORTH].present = false;
-									return new Cell(r, c);
+									maze.map[foundCell.r][foundCell.c].wall[SOUTH].present = false;
+									System.out.println(r + "," + c);
+									return new Cell(foundCell.r, foundCell.c);
 								}
 							} //SOUTH
 							else if (foundCell.r == r-1 && foundCell.c == c ) {
 								System.out.println("south");
 								if (visited[foundCell.r][foundCell.c] && !visited[r][c]) {
-									maze.map[r][c].wall[SOUTH].present = false;
-									return new Cell(r, c);
+									maze.map[foundCell.r][foundCell.c].wall[NORTH].present = false;
+									System.out.println(r + "," + c);
+									return new Cell(foundCell.r, foundCell.c);
 								}
 							} //EAST
 							else if (foundCell.r == r && foundCell.c+1 == c) {
 								System.out.println("east");
 									if (visited[foundCell.r][foundCell.c]  && !visited[r][c]) {
-											maze.map[r][c].wall[EAST].present = false;
-											return new Cell(r, c);
+											maze.map[foundCell.r][foundCell.c].wall[WEST].present = false;
+											System.out.println(r + "," + c);
+											return new Cell(foundCell.r, foundCell.c);
 									}
 							} //WEST
 							else if (foundCell.r == r && foundCell.c-1 == c) {
 								System.out.println("west");
 								if (visited[foundCell.r][foundCell.c] && !visited[r][c]) {
-										maze.map[r][c].wall[WEST].present = false;
-									return new Cell(r, c);
+										maze.map[foundCell.r][foundCell.c].wall[EAST].present = false;
+										System.out.println(r + "," + c);
+									return new Cell(foundCell.r, foundCell.c);
 								}
 							}
 						}
