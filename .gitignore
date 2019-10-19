@@ -24,3 +24,5 @@ hs_err_pid*
 .idea/$PRODUCT_WORKSPACE_FILE$
 /out/
 .idea/
+.classpath
+.project
