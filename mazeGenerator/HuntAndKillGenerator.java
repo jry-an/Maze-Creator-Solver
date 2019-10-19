@@ -155,40 +155,48 @@ public class HuntAndKillGenerator implements MazeGenerator {
 				for (r = startRow; r < maze.sizeR; r++) {
 					if (!cellFound) {
 
-						Cell foundCell = huntCheckSpots(maze, r, c);
-						if (foundCell != null  && !visited[r][c]) {
+						int foundCell = huntCheckSpots(maze, r, c);
+						if (foundCell != -1  && !visited[r][c]) {
 							cellFound = true;
 							//NORTH
-							if (foundCell.r == r+1 && foundCell.c == c) {
-								System.out.println("north");
-								if (visited[foundCell.r][foundCell.c] && !visited[r][c]) {
-									maze.map[foundCell.r][foundCell.c].wall[SOUTH].present = false;
+							if (foundCell == NORTH) {
+								int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
+								int northNeighbourC = maze.map[r][c].neigh[NORTH].c;
+								if (visited[northNeighbourR][northNeighbourC] && !visited[r][c]) {
+									maze.map[r][c].neigh[NORTH].wall[SOUTH].present = false;
+									maze.map[r][c].wall[NORTH].present = false;
 									System.out.println(r + "," + c);
-									return new Cell(foundCell.r, foundCell.c);
+									return new Cell(northNeighbourR, northNeighbourC);
 								}
 							} //SOUTH
-							else if (foundCell.r == r-1 && foundCell.c == c ) {
-								System.out.println("south");
-								if (visited[foundCell.r][foundCell.c] && !visited[r][c]) {
-									maze.map[foundCell.r][foundCell.c].wall[NORTH].present = false;
+							else if (foundCell == SOUTH ) {
+								int southNeighbourR = maze.map[r][c].neigh[SOUTH].r;
+								int southNeighbourC = maze.map[r][c].neigh[SOUTH].c;
+								if (visited[southNeighbourR][southNeighbourC] && !visited[r][c]) {
+									maze.map[r][c].neigh[SOUTH].wall[NORTH].present = false;
+									maze.map[r][c].wall[SOUTH].present = false;
 									System.out.println(r + "," + c);
-									return new Cell(foundCell.r, foundCell.c);
+									return new Cell(southNeighbourR, southNeighbourC);
 								}
 							} //EAST
-							else if (foundCell.r == r && foundCell.c+1 == c) {
-								System.out.println("east");
-									if (visited[foundCell.r][foundCell.c]  && !visited[r][c]) {
-											maze.map[foundCell.r][foundCell.c].wall[WEST].present = false;
-											System.out.println(r + "," + c);
-											return new Cell(foundCell.r, foundCell.c);
+							else if (foundCell == EAST) {
+								int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
+								int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
+									if (visited[eastNeighbourR][eastNeighbourC]  && !visited[r][c]) {
+										maze.map[r][c].neigh[EAST].wall[WEST].present = false;
+										maze.map[r][c].wall[EAST].present = false;
+										System.out.println(r + "," + c);
+											return new Cell(eastNeighbourR, eastNeighbourC);
 									}
 							} //WEST
-							else if (foundCell.r == r && foundCell.c-1 == c) {
-								System.out.println("west");
-								if (visited[foundCell.r][foundCell.c] && !visited[r][c]) {
-										maze.map[foundCell.r][foundCell.c].wall[EAST].present = false;
+							else if (foundCell == WEST) {
+								int westNeighbourR = maze.map[r][c].neigh[WEST].r;
+								int westNeighbourC = maze.map[r][c].neigh[WEST].c;
+								if (visited[westNeighbourR][westNeighbourC] && !visited[r][c]) {
+									maze.map[r][c].neigh[WEST].wall[EAST].present = false;
+									maze.map[r][c].wall[WEST].present = false;
 										System.out.println(r + "," + c);
-									return new Cell(foundCell.r, foundCell.c);
+									return new Cell(westNeighbourR, westNeighbourC);
 								}
 							}
 						}
@@ -198,7 +206,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		}
 		return null;
 	}
-	private Cell huntCheckSpots(Maze maze,int r,int c){
+	private int huntCheckSpots(Maze maze,int r,int c){
 		for (int cell = 0; cell < 4; cell++) {
 			int directionToTravel = direction.get(cell);
 			//check north
@@ -206,14 +214,14 @@ public class HuntAndKillGenerator implements MazeGenerator {
 				case Maze.NORTH:
 					if (r < maze.sizeR - 1) {
 						if (visited[r + 1][c] && !visited[r][c]) {
-							return new Cell(r + 1, c);
+							return NORTH;
 						}
 					}
 					break;
 				case Maze.SOUTH:
 					if (r > 0) {
 						if (visited[r - 1][c] && !visited[r][c]) {
-							return new Cell(r - 1, c);
+							return SOUTH;
 						}
 					}
 					break;
@@ -221,7 +229,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 				case Maze.EAST:
 					if (c < maze.sizeC - 1) {
 						if (visited[r][c + 1] && !visited[r][c]) {
-							return new Cell(r, c + 1);
+							return EAST;
 						}
 					}
 					break;
@@ -229,14 +237,14 @@ public class HuntAndKillGenerator implements MazeGenerator {
 				case Maze.WEST:
 
 					if (c > 0 ) {
-						if (visited[r][c -1] && !visited[r][c]) {
-							return new Cell(r, c - 1);
+						if (visited[r][c-1] && !visited[r][c]) {
+							return WEST;
 						}
 					}
 					break;
 			}
 		}
-		return null;
+		return -1;
 	}
 
 	private boolean walkCheckSpots(Maze maze,int r,int c){
