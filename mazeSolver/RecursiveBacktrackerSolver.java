@@ -2,7 +2,6 @@ package mazeSolver;
 
 import maze.Cell;
 import maze.Maze;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -52,16 +51,10 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 
 		if (maze.map[r][c] != maze.map[maze.exit.r][maze.exit.c]) {
 			Cell unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
-			if (getNextValidCell(maze,r,c).size() == 0){
-				explore(maze,path.get(path.size()-1).r, path.get(path.size()-1).c,path);
-			} else{
 				explore(maze,unvisited.r,unvisited.c,path);
-			}
 		} else {
 			solved = true;
 		}
-
-
 	}
 
 	private List<Cell> getNextValidCell(Maze maze, int r , int c){
@@ -79,7 +72,6 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 			possibleCells.add(maze.map[r][c].neigh[WEST]);
 		}
 		return possibleCells;
-
 	}
 
 } // end of class RecursiveBackTrackerSolver
