@@ -91,7 +91,6 @@ public class HuntAndKillGenerator implements MazeGenerator {
 								nextC = southNeighbourC;
 								maze.map[r][c].wall[SOUTH].present = false;
 								maze.map[r][c].neigh[SOUTH].wall[NORTH].present = false;
-
 								System.out.println(r + "," + c);
 
 							}
@@ -102,7 +101,6 @@ public class HuntAndKillGenerator implements MazeGenerator {
 						if (c < maze.sizeR - 1) {
 							int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
 							int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
-
 							if (!visited[eastNeighbourR][eastNeighbourC]) {
 								nextR = eastNeighbourR;
 								nextC = eastNeighbourC;
@@ -163,7 +161,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 									maze.map[r][c].neigh[NORTH].wall[SOUTH].present = false;
 									maze.map[r][c].wall[NORTH].present = false;
 									System.out.println(r + "," + c);
-									return new Cell(northNeighbourR, northNeighbourC);
+									return new Cell(r, c);
 								}
 							} //SOUTH
 							else if (foundCell == SOUTH ) {
@@ -173,7 +171,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 									maze.map[r][c].neigh[SOUTH].wall[NORTH].present = false;
 									maze.map[r][c].wall[SOUTH].present = false;
 									System.out.println(r + "," + c);
-									return new Cell(southNeighbourR, southNeighbourC);
+									return new Cell(r, c);
 								}
 							} //EAST
 							else if (foundCell == EAST) {
@@ -183,7 +181,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 										maze.map[r][c].neigh[EAST].wall[WEST].present = false;
 										maze.map[r][c].wall[EAST].present = false;
 										System.out.println(r + "," + c);
-											return new Cell(eastNeighbourR, eastNeighbourC);
+											return new Cell(r, c);
 									}
 							} //WEST
 							else if (foundCell == WEST) {
@@ -193,7 +191,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 									maze.map[r][c].neigh[WEST].wall[EAST].present = false;
 									maze.map[r][c].wall[WEST].present = false;
 										System.out.println(r + "," + c);
-									return new Cell(westNeighbourR, westNeighbourC);
+									return new Cell(r, c);
 								}
 							}
 						}
