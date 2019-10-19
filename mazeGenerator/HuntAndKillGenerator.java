@@ -29,7 +29,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		visited = new boolean[maze.sizeR][maze.sizeC];
 		direction = Arrays.asList(NORTH, SOUTH, EAST, WEST);
 		initializeVisited(maze);
-		setNeighbours(maze);
+//		setNeighbours(maze);
 
 		//set starting walk to entrance
 		int row = maze.entrance.r;
@@ -61,19 +61,6 @@ public class HuntAndKillGenerator implements MazeGenerator {
 
 		//cell is in bound of maze map
 		if (r >= 0 && r < maze.sizeR && c >= 0 && c < maze.sizeC) {
-			int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
-			int northNeighbourC = maze.map[r][c].neigh[NORTH].c;
-
-			int southNeighbourR = maze.map[r][c].neigh[SOUTH].r;
-			int southNeighbourC = maze.map[r][c].neigh[SOUTH].c;
-
-
-			int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
-			int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
-
-
-			int westNeighbourR = maze.map[r][c].neigh[WEST].r;
-			int westNeighbourC = maze.map[r][c].neigh[WEST].c;
 
 			//set current cell to visited
 			visited[r][c] = true;
@@ -89,6 +76,8 @@ public class HuntAndKillGenerator implements MazeGenerator {
 					//2
 					case Maze.NORTH:
 						if (r < maze.sizeR - 1) {
+							int northNeighbourR = maze.map[r][c].neigh[NORTH].r;
+							int northNeighbourC = maze.map[r][c].neigh[NORTH].c;
 							if (!visited[northNeighbourR][northNeighbourC]) {
 								nextR = northNeighbourR;
 								nextC = northNeighbourC;
@@ -100,6 +89,9 @@ public class HuntAndKillGenerator implements MazeGenerator {
 						//5
 					case Maze.SOUTH:
 						if (r > 0) {
+							int southNeighbourR = maze.map[r][c].neigh[SOUTH].r;
+							int southNeighbourC = maze.map[r][c].neigh[SOUTH].c;
+
 							if (!visited[southNeighbourR][southNeighbourC]) {
 								nextR = southNeighbourR;
 								nextC = southNeighbourC;
@@ -112,6 +104,9 @@ public class HuntAndKillGenerator implements MazeGenerator {
 						//0
 					case Maze.EAST:
 						if (c < maze.sizeR - 1) {
+							int eastNeighbourR = maze.map[r][c].neigh[EAST].r;
+							int eastNeighbourC = maze.map[r][c].neigh[EAST].c;
+
 							if (!visited[eastNeighbourR][eastNeighbourC]) {
 								nextR = eastNeighbourR;
 								nextC = eastNeighbourC;
@@ -124,6 +119,8 @@ public class HuntAndKillGenerator implements MazeGenerator {
 						//3
 					case Maze.WEST:
 						if (c > 0) {
+							int westNeighbourR = maze.map[r][c].neigh[WEST].r;
+							int westNeighbourC = maze.map[r][c].neigh[WEST].c;
 							if (!visited[westNeighbourR][westNeighbourC]) {
 								nextR = westNeighbourR;
 								nextC = westNeighbourC;
@@ -287,23 +284,23 @@ return false;
 		}
 	}
 
-	private void setNeighbours(Maze maze){
-
-		int c = 0;
-		while (c < maze.sizeC) {
-			for (int r = 0; r < maze.sizeR; r++) {
-				Cell north = new Cell(r + 1, c);
-				Cell south = new Cell(r - 1, c);
-				Cell east = new Cell(r, c + 1);
-				Cell west = new Cell(r, c - 1);
-				//set neighbour cells
-				maze.map[r][c].neigh[NORTH] = north;
-				maze.map[r][c].neigh[SOUTH] = south;
-				maze.map[r][c].neigh[EAST] = east;
-				maze.map[r][c].neigh[WEST] = west;
-			}
-			c++;
-		}
-
-	}
+//	private void setNeighbours(Maze maze){
+//
+//		int c = 0;
+//		while (c < maze.sizeC) {
+//			for (int r = 0; r < maze.sizeR; r++) {
+//				Cell north = new Cell(r + 1, c);
+//				Cell south = new Cell(r - 1, c);
+//				Cell east = new Cell(r, c + 1);
+//				Cell west = new Cell(r, c - 1);
+//				//set neighbour cells
+//				maze.map[r][c].neigh[NORTH] = north;
+//				maze.map[r][c].neigh[SOUTH] = south;
+//				maze.map[r][c].neigh[EAST] = east;
+//				maze.map[r][c].neigh[WEST] = west;
+//			}
+//			c++;
+//		}
+//
+//	}
 } // end of class HuntAndKillGenerator
