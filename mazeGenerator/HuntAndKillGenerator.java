@@ -34,11 +34,6 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		//set starting walk to entrance
 		int row = maze.entrance.r;
 		int col = maze.entrance.c;
-		int exitRow = maze.exit.r;
-		int exitCol = maze.exit.c;
-//		maze.map[row][col].wall[NORTH].present = false;
-//		maze.map[exitRow][exitCol].wall[SOUTH].present = false;
-
 		//loop until every cell in visited 2D array is visited
 		while(!allVisited(maze)) {
 			walk(maze, row, col);
@@ -82,6 +77,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 								nextR = northNeighbourR;
 								nextC = northNeighbourC;
 								maze.map[r][c].wall[NORTH].present = false;
+								maze.map[r][c].neigh[NORTH].wall[SOUTH].present = false;
 								System.out.println(r + "," + c);
 							}
 						}
@@ -96,6 +92,8 @@ public class HuntAndKillGenerator implements MazeGenerator {
 								nextR = southNeighbourR;
 								nextC = southNeighbourC;
 								maze.map[r][c].wall[SOUTH].present = false;
+								maze.map[r][c].neigh[SOUTH].wall[NORTH].present = false;
+
 								System.out.println(r + "," + c);
 
 							}
@@ -111,6 +109,8 @@ public class HuntAndKillGenerator implements MazeGenerator {
 								nextR = eastNeighbourR;
 								nextC = eastNeighbourC;
 								maze.map[r][c].wall[EAST].present = false;
+								maze.map[r][c].neigh[EAST].wall[WEST].present = false;
+
 								System.out.println(r + "," + c);
 
 							}
@@ -125,6 +125,8 @@ public class HuntAndKillGenerator implements MazeGenerator {
 								nextR = westNeighbourR;
 								nextC = westNeighbourC;
 								maze.map[r][c].wall[WEST].present = false;
+								maze.map[r][c].neigh[WEST].wall[EAST].present = false;
+
 								System.out.println(r + "," + c);
 							}
 						}
