@@ -49,27 +49,27 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 		cellsExplored++;
 		visited[r][c] = true;
 
-		if (maze.map[r][c] != maze.map[maze.exit.r][maze.exit.c]) {
-			Cell unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
-				explore(maze,unvisited.r,unvisited.c,path);
+		if (maze.map[r][c] != maze.map[maze.exit.r][maze.exit.c] && getNextValidCell(maze,r,c).size() > 0) {
+			int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
+				explore(maze,maze.map[r][c].neigh[unvisited].r,maze.map[r][c].neigh[unvisited].c,path);
 		} else {
 			solved = true;
 		}
 	}
 
-	private List<Cell> getNextValidCell(Maze maze, int r , int c){
-		List<Cell> possibleCells = new ArrayList<>();
+	private List<Integer> getNextValidCell(Maze maze, int r , int c){
+		List<Integer> possibleCells = new ArrayList<>();
 		if (!maze.map[r][c].wall[NORTH].present && !visited[maze.map[r][c].neigh[NORTH].r][maze.map[r][c].neigh[NORTH].c]){
-			possibleCells.add(maze.map[r][c].neigh[NORTH]);
+			possibleCells.add(NORTH);
 		}
 		if (!maze.map[r][c].wall[SOUTH].present && !visited[maze.map[r][c].neigh[SOUTH].r][maze.map[r][c].neigh[SOUTH].c]){
-			possibleCells.add(maze.map[r][c].neigh[SOUTH]);
+			possibleCells.add(SOUTH);
 		}
 		if (!maze.map[r][c].wall[EAST].present && !visited[maze.map[r][c].neigh[EAST].r][maze.map[r][c].neigh[EAST].c]){
-			possibleCells.add(maze.map[r][c].neigh[EAST]);
+			possibleCells.add(EAST);
 		}
 		if (!maze.map[r][c].wall[WEST].present && !visited[maze.map[r][c].neigh[WEST].r][maze.map[r][c].neigh[WEST].c]){
-			possibleCells.add(maze.map[r][c].neigh[WEST]);
+			possibleCells.add(WEST);
 		}
 		return possibleCells;
 	}
