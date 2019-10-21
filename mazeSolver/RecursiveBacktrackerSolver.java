@@ -59,9 +59,6 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 						int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
 						explore(maze, maze.map[r][c].neigh[unvisited].r, maze.map[r][c].neigh[unvisited].c, path);
 					}
-				} else {
-					solved = true;
-					break;
 				}
 			}
 		}
