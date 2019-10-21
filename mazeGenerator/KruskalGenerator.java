@@ -20,7 +20,6 @@ public class KruskalGenerator implements MazeGenerator {
 		Random rand = new Random();
 		edges = new ArrayList<>();
 		trees = new ArrayList<>();
-
 		initializeCellId(maze);
 		addEdgesToList(maze);
 
@@ -33,57 +32,72 @@ public class KruskalGenerator implements MazeGenerator {
 			- change all cells with that id, in that tree to the same as original id
 		3. repeat 1 and 2
 		 */
-
 			//get random cell
 			if (edges.size() > 0) {
 				Edge randEdge = edges.get(rand.nextInt(edges.size()));
 
-				if (randEdge.getCurrentCell().rootCell != randEdge.getAdjacentCell().rootCell){
-					int direction = getDirectionOfAdjacent(randEdge.getCurrentCell(),randEdge.getAdjacentCell());
+				randEdge.getCurrentCell().rootId = maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].rootId;
+				randEdge.getAdjacentCell().rootId = maze.map[randEdge.getAdjacentCell().r][randEdge.getCurrentCell().c].rootId;
 
-					//remove wall
-					randEdge.getCurrentCell().wall[direction].present = false;
-					randEdge.getAdjacentCell().wall[Maze.oppoDir[direction]].present = false;
 
-					changeTreeRootId(maze,randEdge.getCurrentCell(), randEdge.getAdjacentCell());
+				System.out.println(randEdge.getCurrentCell().rootId + " " + randEdge.getAdjacentCell().rootId);
 
+				if (randEdge.getCurrentCell().rootId != randEdge.getAdjacentCell().rootId){
+					System.out.println("edges size = " +edges.size());
+
+					int direction = getDirectionOfAdjacent(maze,maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c],maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c]);
+
+					if (direction != -1) {
+						//remove wall
+						maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].wall[direction].present = false;
+						maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c].wall[Maze.oppoDir[direction]].present = false;
+
+						changeTreeRootId(maze, randEdge.getCurrentCell(), randEdge.getAdjacentCell());
+
+						edges.remove(randEdge);
+					} else{
+						System.out.println("direction == -1");
+
+					}
+				} else{
 					edges.remove(randEdge);
 				}
 			}
-
-
-//			int randomWall = -1;
-//			ArrayList<Integer> listofAvailableWalls = checkSurroundingWalls(maze,randR,randC);
-//			if (!listofAvailableWalls.isEmpty()){
-//				 randomWall = listofAvailableWalls.get(rand.nextInt(listofAvailableWalls.size()));
-//			}
-
 		}//end loop
 
 	} // end of generateMaze()
 
 	private void changeTreeRootId(Maze maze, Cell current, Cell adjacent){
 		for (int i = 0; i < trees.size(); i++) {
-			if (trees.get(i).rootCell == adjacent.rootCell){
-				trees.get(i).rootCell = current.rootCell;
-				maze.map[trees.get(i).r][trees.get(i).c].rootCell = current.rootCell;
+			if (trees.get(i).rootId == adjacent.rootId){
+				trees.get(i).rootId = current.rootId;
+				maze.map[trees.get(i).r][trees.get(i).c].rootId = current.rootId;
 			}
 		}
 
 	}
 
-	private Integer getDirectionOfAdjacent(Cell current, Cell adjacent){
-		if (current.neigh[NORTH] == adjacent){
-			return NORTH;
+	private Integer getDirectionOfAdjacent(Maze maze,Cell current, Cell adjacent){
+		//TODO - fix error, always returning -1
+		if (current.r <maze.sizeR -1 ) {
+			if (current.neigh[NORTH] == adjacent) {
+				return NORTH;
+			}
 		}
-		if (current.neigh[SOUTH] == adjacent){
-			return SOUTH;
+		if (current.r > 0) {
+			if (current.neigh[SOUTH] == adjacent) {
+				return SOUTH;
+			}
 		}
-		if (current.neigh[EAST] == adjacent){
-			return EAST;
+		if (current.c <maze.sizeC -1) {
+			if (current.neigh[EAST] == adjacent) {
+				return EAST;
+			}
 		}
-		if (current.neigh[WEST] == adjacent){
-			return WEST;
+		if (current.c > 0) {
+			if (current.neigh[WEST] == adjacent) {
+				return WEST;
+			}
 		}
 		return -1;
 	}
@@ -91,22 +105,22 @@ public class KruskalGenerator implements MazeGenerator {
 	private ArrayList<Integer> checkSurroundingWalls(Maze maze, int r, int c) {
 		ArrayList<Integer> availableDirections = new ArrayList<>();
 		if (r < maze.sizeR -1){
-		if (maze.map[r][c].neigh[NORTH].rootCell != maze.map[r][c].rootCell) {
+		if (maze.map[r][c].neigh[NORTH].rootId != maze.map[r][c].rootId) {
 			availableDirections.add(NORTH);
 			}
 		}
 		if (r >0) {
-			if (maze.map[r][c].neigh[SOUTH].rootCell != maze.map[r][c].rootCell) {
+			if (maze.map[r][c].neigh[SOUTH].rootId != maze.map[r][c].rootId) {
 				availableDirections.add(SOUTH);
 			}
 		}
 		if (c < maze.sizeC -1) {
-			if (maze.map[r][c].neigh[EAST].rootCell != maze.map[r][c].rootCell) {
+			if (maze.map[r][c].neigh[EAST].rootId != maze.map[r][c].rootId) {
 				availableDirections.add(EAST);
 			}
 		}
 		if(c > 0) {
-			if (maze.map[r][c].neigh[WEST].rootCell != maze.map[r][c].rootCell) {
+			if (maze.map[r][c].neigh[WEST].rootId != maze.map[r][c].rootId) {
 				availableDirections.add(WEST);
 			}
 		}
@@ -120,7 +134,8 @@ public class KruskalGenerator implements MazeGenerator {
 		int id = 0;
 		while(c < maze.sizeC) {
 			for (r = 0; r < maze.sizeR; r++) {
-				maze.map[r][c].rootCell = new Cell(r, c);
+				maze.map[r][c].rootId = id;
+				id++;
 			}
 			c++;
 		}
@@ -131,10 +146,10 @@ public class KruskalGenerator implements MazeGenerator {
 		//if there are 2 that are different return false
 		int r = 0;
 		int c = 0;
-		Cell firstCellId = maze.map[r][c].rootCell;
+		int firstCellId = maze.map[r][c].rootId;
 		while(c < maze.sizeC) {
 			for (r = 0; r < maze.sizeR; r++) {
-				if (maze.map[r][c].rootCell != firstCellId){
+				if (maze.map[r][c].rootId != firstCellId){
 					return false;
 				}
 			}
@@ -152,7 +167,6 @@ public class KruskalGenerator implements MazeGenerator {
 				directions = checkSurroundingWalls(maze,r,c);
 				//get surrounding edges
 				for (int i = 0; i < directions.size() ; i++) {
-						System.out.println(r + " " + c + " " + maze.map[r][c].neigh[directions.get(i)].r + " " + maze.map[r][c].neigh[directions.get(i)].c);
 						Edge newEdge = new Edge(new Cell(r, c), new Cell(maze.map[r][c].neigh[directions.get(i)].r, maze.map[r][c].neigh[directions.get(i)].c));
 						edges.add(newEdge);
 				}
