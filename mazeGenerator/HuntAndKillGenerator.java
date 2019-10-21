@@ -244,7 +244,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 
 	private boolean walkCheckSpots(Maze maze,int r,int c){
 		if (r < maze.sizeR-1){
-			if( !visited[r +1][c]){
+			if(!visited[r +1][c]){
 				return true;
 			}
 		}

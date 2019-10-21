@@ -22,7 +22,7 @@ public class Cell {
 	 */
 	public int c;
 
-	public int rootId;
+	public Cell rootCell;
 
 	/**
 	 * wall[i] is the wall on direction i of the cell

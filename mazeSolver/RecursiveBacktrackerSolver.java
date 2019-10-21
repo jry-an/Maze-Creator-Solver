@@ -20,7 +20,6 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 	private boolean[][] visited;
 	private boolean solved;
 
-
 	@Override
 	public void solveMaze(Maze maze) {
 		cellsExplored = 0;
