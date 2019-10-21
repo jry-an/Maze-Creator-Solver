@@ -56,8 +56,12 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 			while (getNextValidCell(maze, r, c).size() > 0 && !isSolved()) {
 				if (maze.map[r][c] != maze.map[maze.exit.r][maze.exit.c]) {
 					if (getNextValidCell(maze, r, c).size() > 0) {
-						int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
-						explore(maze, maze.map[r][c].neigh[unvisited].r, maze.map[r][c].neigh[unvisited].c, path);
+						if(maze.map[r][c].tunnelTo == null || visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
+							int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
+							explore(maze, maze.map[r][c].neigh[unvisited].r, maze.map[r][c].neigh[unvisited].c, path);
+						} else if (maze.map[r][c].tunnelTo != null && !visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
+							explore(maze, maze.map[r][c].tunnelTo.r, maze.map[r][c].tunnelTo.c, path);
+						}
 					}
 				}
 			}

@@ -8,6 +8,10 @@ import java.util.Random;
 
 public class KruskalGenerator implements MazeGenerator {
 
+	/**
+	 * PLEASE NOTE THAT THE CELL CLASS HAS BEEN EDITED
+	 */
+
 	private static int NORTH = Maze.NORTH;
 	private static  int SOUTH = Maze.SOUTH;
 	private static int EAST = Maze.EAST;
@@ -77,6 +81,15 @@ public class KruskalGenerator implements MazeGenerator {
 			for (int r = 0; r < maze.sizeR; r++) {
 				if (maze.map[r][c].rootId == oldAdjRoot){
 					maze.map[r][c].rootId = maze.map[current.r][current.c].rootId;
+				}
+				//when cell is a tunnel, go to cell and change rootId of tunnel exit to tunnel entrance rootId
+				//change all with same rootId as previous id
+				if (maze.map[r][c].tunnelTo != null){
+					int tunnelR = maze.map[r][c].tunnelTo.r;
+					int tunnelC = maze.map[r][c].tunnelTo.c;
+					if (maze.map[r][c].rootId != maze.map[tunnelR][tunnelC].rootId){
+						maze.map[tunnelR][tunnelC].rootId = maze.map[r][c].rootId;
+					}
 				}
 			}
 			c++;
