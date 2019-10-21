@@ -16,12 +16,14 @@ public class Cell {
 	 * row coordinate
 	 */
 	public int r;
-	
 	/**
 	 * column coordinate
 	 */
 	public int c;
 
+	/**
+	* rootId for tree identification
+	 */
 	public int rootId;
 
 	/**

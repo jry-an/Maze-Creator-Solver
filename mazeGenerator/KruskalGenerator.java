@@ -23,7 +23,6 @@ public class KruskalGenerator implements MazeGenerator {
 
 		//repeat until all cells the same root id
 		while(!edges.isEmpty()){
-			//TODO -  fix bug(atm it is only getting rid of north and south walls)
 		/*
 		1. pick random wall
 		2. if the cells next to the wall != same rootCell
@@ -35,7 +34,7 @@ public class KruskalGenerator implements MazeGenerator {
 
 			//get random cell
 				Edge randEdge = edges.get(rand.nextInt(edges.size()));
-				//giave randEdge the rootId
+				//give randEdge the rootId
 				randEdge.getCurrentCell().rootId = maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].rootId;
 				randEdge.getAdjacentCell().rootId = maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c].rootId;
 				//print current and adjacent root id
@@ -181,10 +180,6 @@ public class KruskalGenerator implements MazeGenerator {
 
 		public Cell getAdjacentCell() {
 			return adjacentCell;
-		}
-
-		public void setAdjacentCell(Cell adjacentCell) {
-			this.adjacentCell = adjacentCell;
 		}
 	}
 
