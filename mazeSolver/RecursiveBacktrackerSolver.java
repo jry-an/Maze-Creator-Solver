@@ -42,24 +42,28 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 	} // end of cellsExplored()
 
 	private void explore(Maze maze, int r, int c, List<Cell> path) {
-		Random rand = new Random();
-		path.add(path.size(), new Cell(r, c));
-		maze.drawFtPrt(new Cell(r, c));
-		cellsExplored++;
-		visited[r][c] = true;
-		System.out.println(r + " " + c);
-
-		while (getNextValidCell(maze, r, c).size() > 0) {
-			if (maze.map[r][c] != maze.map[maze.exit.r][maze.exit.c]) {
-				if (getNextValidCell(maze, r, c).size() > 0) {
-					int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
-					explore(maze, maze.map[r][c].neigh[unvisited].r, maze.map[r][c].neigh[unvisited].c, path);
-				}
-			} else {
+		if (!isSolved()) {
+			Random rand = new Random();
+			path.add(path.size(), new Cell(r, c));
+			maze.drawFtPrt(new Cell(r, c));
+			cellsExplored++;
+			visited[r][c] = true;
+			System.out.println(r + " " + c);
+			if (visited[maze.exit.r][maze.exit.c]){
 				solved = true;
 			}
-			if (isSolved())
-		break;
+
+			while (getNextValidCell(maze, r, c).size() > 0 && !isSolved()) {
+				if (maze.map[r][c] != maze.map[maze.exit.r][maze.exit.c]) {
+					if (getNextValidCell(maze, r, c).size() > 0) {
+						int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
+						explore(maze, maze.map[r][c].neigh[unvisited].r, maze.map[r][c].neigh[unvisited].c, path);
+					}
+				} else {
+					solved = true;
+					break;
+				}
+			}
 		}
 	}
 

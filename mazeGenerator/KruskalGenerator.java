@@ -23,6 +23,7 @@ public class KruskalGenerator implements MazeGenerator {
 
 		//repeat until all cells the same root id
 		while(!edges.isEmpty()){
+			//TODO -  fix bug(atm it is only getting rid of north and south walls)
 		/*
 		1. pick random wall
 		2. if the cells next to the wall != same rootCell
@@ -30,22 +31,21 @@ public class KruskalGenerator implements MazeGenerator {
 			- change all cells with that id, in that tree to the same as original id
 		3. repeat 1 and 2
 		 */
+
+
 			//get random cell
 				Edge randEdge = edges.get(rand.nextInt(edges.size()));
-				//TODO -  fix bug(atm it is only getting rid of north and south walls)
-
-				//initialize cell with maze rootId
+				//giave randEdge the rootId
 				randEdge.getCurrentCell().rootId = maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].rootId;
-				randEdge.getAdjacentCell().rootId = maze.map[randEdge.getAdjacentCell().r][randEdge.getCurrentCell().c].rootId;
-
+				randEdge.getAdjacentCell().rootId = maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c].rootId;
+				//print current and adjacent root id
 				System.out.println(randEdge.getCurrentCell().rootId + " " + randEdge.getAdjacentCell().rootId);
 				//check if current cell and adjacent cell have same id
 				if (randEdge.getCurrentCell().rootId != randEdge.getAdjacentCell().rootId){
 					System.out.println("edges size = " +edges.size());
 
 					//get direction of adjacent cell in comparison to current cell
-					int direction = getDirectionOfAdjacent(maze,maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c]
-							,maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c]);
+					int direction = getDirectionOfAdjacent(maze,maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c], maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c]);
 					System.out.println(direction);
 
 					//-1 == no direction found
@@ -54,12 +54,13 @@ public class KruskalGenerator implements MazeGenerator {
 						maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].wall[direction].present = false;
 						maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c].wall[Maze.oppoDir[direction]].present = false;
 
-						//
+						//merge trees
 						changeTreeRootId(maze, randEdge.getCurrentCell(), randEdge.getAdjacentCell());
 
+						//remove edge from list of edges
 						edges.remove(randEdge);
 					} else{
-						System.out.println("direction == -1");
+						System.out.println("direction == -1, failed to find direction");
 					}
 				} else {
 					edges.remove(randEdge);
@@ -74,7 +75,7 @@ public class KruskalGenerator implements MazeGenerator {
 		maze.map[adjacent.r][adjacent.c].rootId = maze.map[current.r][current.c].rootId;
 
 		while(c < maze.sizeC){
-			for (int r = 0; r < maze.sizeR -1; r++) {
+			for (int r = 0; r < maze.sizeR; r++) {
 				if (maze.map[r][c].rootId == oldAdjRoot){
 					maze.map[r][c].rootId = maze.map[current.r][current.c].rootId;
 				}
@@ -85,7 +86,7 @@ public class KruskalGenerator implements MazeGenerator {
 	}
 
 	private Integer getDirectionOfAdjacent(Maze maze,Cell current, Cell adjacent){
-		if (current.r <maze.sizeR -1 ) {
+		if (current.r <maze.sizeR ) {
 			if (maze.map[current.r][current.c].neigh[NORTH] == maze.map[adjacent.r][adjacent.c]) {
 				return NORTH;
 			}
@@ -95,7 +96,7 @@ public class KruskalGenerator implements MazeGenerator {
 				return SOUTH;
 			}
 		}
-		if (current.c <maze.sizeC -1) {
+		if (current.c <maze.sizeC) {
 			if (maze.map[current.r][current.c].neigh[EAST] == maze.map[adjacent.r][adjacent.c]) {
 				return EAST;
 			}
