@@ -13,13 +13,11 @@ public class KruskalGenerator implements MazeGenerator {
 	private static int EAST = Maze.EAST;
 	private static int WEST = Maze.WEST;
 	private ArrayList<Edge> edges;
-	private ArrayList<Cell> trees;
 
 	@Override
 	public void generateMaze(Maze maze) {
 		Random rand = new Random();
 		edges = new ArrayList<>();
-		trees = new ArrayList<>();
 		initializeCellId(maze);
 		addEdgesToList(maze);
 
@@ -34,6 +32,7 @@ public class KruskalGenerator implements MazeGenerator {
 		 */
 			//get random cell
 				Edge randEdge = edges.get(rand.nextInt(edges.size()));
+				//TODO -  fix bug(atm it is only getting rid of north and south walls)
 
 				//initialize cell with maze rootId
 				randEdge.getCurrentCell().rootId = maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].rootId;
