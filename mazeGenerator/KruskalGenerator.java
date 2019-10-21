@@ -4,8 +4,6 @@ import maze.Maze;
 import maze.Cell;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class KruskalGenerator implements MazeGenerator {
@@ -54,11 +52,11 @@ public class KruskalGenerator implements MazeGenerator {
 			}
 
 
-			int randomWall = -1;
-			ArrayList<Integer> listofAvailableWalls = checkSurroundingWalls(maze,randR,randC);
-			if (!listofAvailableWalls.isEmpty()){
-				 randomWall = listofAvailableWalls.get(rand.nextInt(listofAvailableWalls.size()));
-			}
+//			int randomWall = -1;
+//			ArrayList<Integer> listofAvailableWalls = checkSurroundingWalls(maze,randR,randC);
+//			if (!listofAvailableWalls.isEmpty()){
+//				 randomWall = listofAvailableWalls.get(rand.nextInt(listofAvailableWalls.size()));
+//			}
 
 		}//end loop
 
