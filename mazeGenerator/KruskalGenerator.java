@@ -24,7 +24,7 @@ public class KruskalGenerator implements MazeGenerator {
 		addEdgesToList(maze);
 
 		//repeat until all cells the same root id
-		while(!allCellsSameId(maze)){
+		while(!edges.isEmpty()){
 		/*
 		1. pick random wall
 		2. if the cells next to the wall != same rootCell
@@ -36,22 +36,27 @@ public class KruskalGenerator implements MazeGenerator {
 			if (edges.size() > 0) {
 				Edge randEdge = edges.get(rand.nextInt(edges.size()));
 
+				//initialize cell with maze rootId
 				randEdge.getCurrentCell().rootId = maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].rootId;
 				randEdge.getAdjacentCell().rootId = maze.map[randEdge.getAdjacentCell().r][randEdge.getCurrentCell().c].rootId;
 
 
 				System.out.println(randEdge.getCurrentCell().rootId + " " + randEdge.getAdjacentCell().rootId);
-
+				//check if current cell and adjacent cell have same id
 				if (randEdge.getCurrentCell().rootId != randEdge.getAdjacentCell().rootId){
 					System.out.println("edges size = " +edges.size());
 
-					int direction = getDirectionOfAdjacent(maze,maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c],maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c]);
+					//get direction of adjacent cell in comparison to current cell
+					int direction = getDirectionOfAdjacent(maze,maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c],
+							maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c]);
 
+					//-1 == no direction found
 					if (direction != -1) {
 						//remove wall
 						maze.map[randEdge.getCurrentCell().r][randEdge.getCurrentCell().c].wall[direction].present = false;
 						maze.map[randEdge.getAdjacentCell().r][randEdge.getAdjacentCell().c].wall[Maze.oppoDir[direction]].present = false;
 
+						//
 						changeTreeRootId(maze, randEdge.getCurrentCell(), randEdge.getAdjacentCell());
 
 						edges.remove(randEdge);
@@ -59,7 +64,7 @@ public class KruskalGenerator implements MazeGenerator {
 						System.out.println("direction == -1");
 
 					}
-				} else{
+				} else {
 					edges.remove(randEdge);
 				}
 			}
