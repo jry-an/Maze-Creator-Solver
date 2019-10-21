@@ -22,7 +22,7 @@ public class KruskalGenerator implements MazeGenerator {
 		trees = new ArrayList<>();
 
 		initializeCellId(maze);
-		addEdgesToMap(maze);
+		addEdgesToList(maze);
 
 		//repeat until all cells the same root id
 		while(!allCellsSameId(maze)){
@@ -118,8 +118,10 @@ public class KruskalGenerator implements MazeGenerator {
 		int r;
 		int c = 0;
 		int id = 0;
-		for (r = 0; r < maze.sizeR; r++) {
-				maze.map[r][c].rootCell = new Cell(r,c);
+		while(c < maze.sizeC) {
+			for (r = 0; r < maze.sizeR; r++) {
+				maze.map[r][c].rootCell = new Cell(r, c);
+			}
 			c++;
 		}
 	}
@@ -141,17 +143,18 @@ public class KruskalGenerator implements MazeGenerator {
 		return true;
 	}
 
-	private void addEdgesToMap(Maze maze){
+	private void addEdgesToList(Maze maze){
 		ArrayList<Integer> directions;
 		int c = 0;
-		while(c < 50){
+		while(c < maze.sizeC){
 			for (int r = 0; r < maze.sizeR; r++) {
 				//get valid cells
 				directions = checkSurroundingWalls(maze,r,c);
 				//get surrounding edges
 				for (int i = 0; i < directions.size() ; i++) {
-					Edge newEdge = new Edge(new Cell(r,c), new Cell(maze.map[r][c].neigh[i].r,maze.map[r][c].neigh[i].c));
-					edges.add(newEdge);
+						System.out.println(r + " " + c + " " + maze.map[r][c].neigh[directions.get(i)].r + " " + maze.map[r][c].neigh[directions.get(i)].c);
+						Edge newEdge = new Edge(new Cell(r, c), new Cell(maze.map[r][c].neigh[directions.get(i)].r, maze.map[r][c].neigh[directions.get(i)].c));
+						edges.add(newEdge);
 				}
 			}
 			c++;
