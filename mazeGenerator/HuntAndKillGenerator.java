@@ -4,8 +4,6 @@ import maze.Cell;
 import maze.Maze;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 public class HuntAndKillGenerator implements MazeGenerator {
 
 //	1. Choose a starting location.
@@ -213,6 +211,8 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		}
 		return null;
 	}
+	//in each iteration of hunt - check surrounding cells if current cell is unvisited
+	//returns random direction to a visited cell
 	private int huntCheckSpots(Maze maze,int r,int c){
 		for (int cell = 0; cell < 4; cell++) {
 			int directionToTravel = direction.get(cell);
@@ -254,6 +254,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		return -1;
 	}
 
+	//checks the surround spots of the current cell in walk
 	private boolean walkCheckSpots(Maze maze,int r,int c){
 		if (r < maze.sizeR-1){
 			if(!visited[r +1][c]){
@@ -277,7 +278,7 @@ public class HuntAndKillGenerator implements MazeGenerator {
 		}
 return false;
 	}
-
+	//check if all cells in the maze have been visited
 	private boolean allVisited(Maze maze) {
 		int c = 0;
 		while (c < maze.sizeC) {
@@ -291,6 +292,7 @@ return false;
 		return true;
 	}
 
+	//set all of visited to false
 	private void initializeVisited(Maze maze){
 		int c = 0;
 		while(c<maze.sizeC) {
