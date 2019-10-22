@@ -1,4 +1,7 @@
 package maze;
+
+import java.util.ArrayList;
+
 /**
  * 
  * @author Youhan Xia
@@ -13,12 +16,16 @@ public class Cell {
 	 * row coordinate
 	 */
 	public int r;
-	
 	/**
 	 * column coordinate
 	 */
 	public int c;
-	
+
+	/**
+	* rootId for tree identification
+	 */
+	public int rootId;
+
 	/**
 	 * wall[i] is the wall on direction i of the cell
 	 * rectangular cells have 4 walls: wall[0], wall[2], wall[3], wall[5] are EAST, NORTH, WEST, SOUTH walls, respectively (see Maze.java)

@@ -120,23 +120,31 @@ public class NormalMaze extends Maze {
 			int visitedNeigh = 0;
 			for (int i = 0; i < NUM_DIR; i++) {
 				Cell nextCell = currCell.neigh[i];
-				if (!isIn(nextCell) || currCell.wall[i].present)	// ignore if nextCell is invald or the wall between currCell and nextCell exists 
+				if (!isIn(nextCell) || currCell.wall[i].present)	// ignore if nextCell is invald or the wall between currCell and nextCell exists
 					continue;
-				if (visited[nextCell.r][nextCell.c])				
-					visitedNeigh += 1; 
-				else
-					queue.add(nextCell);							// if nextCell is valid and there's no wall, add nextCell to the queue
-			}
+				if (visited[nextCell.r][nextCell.c]) {
+					visitedNeigh += 1;
+				}
+				else{
+					queue.add(nextCell);
+					System.out.println("neighbour" + nextCell.r + " " + nextCell.c);// if nextCell is valid and there's no wall, add nextCell to the queue
+			}}
 			
-			if (visitedNeigh > 1)									// if there are two neighbors of currCell that have been visited before, there's a cycle and the maze is not perfect
+			if (visitedNeigh > 1) {                                    // if there are two neighbors of currCell that have been visited before, there's a cycle and the maze is not perfect
+				System.out.println("maze has cycle");
 				return false;
+			}
 		}
 		
-		for (int i = 0; i < sizeR; i++)		// checking if all cells have been visited by the BFS, if no, return false (not perfect)
-			for (int j = 0; j < sizeC; j++)
-				if (!visited[i][j])
+		for (int i = 0; i < sizeR; i++)	{	// checking if all cells have been visited by the BFS, if no, return false (not perfect)
+			for (int j = 0; j < sizeC; j++) {
+				if (!visited[i][j]) {
+					System.out.println("all visited == false" + i + "," + j );
 					return false;
-		
+				}
+				System.out.println("visited == true");
+			}
+		}
 		return true;
 	} // end of isPerfect()
 

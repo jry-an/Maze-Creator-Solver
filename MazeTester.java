@@ -164,7 +164,7 @@ class MazeTester {
 		// draw maze (this depends on maze.isVisu)
 		maze.draw();
 
-		// solve the generateed maze if perfect
+		// solve the generated maze if perfect
 		if (isPerfectMaze) {
 			MazeSolver mazeSolver = null;
 			switch (mazeSolverName) {

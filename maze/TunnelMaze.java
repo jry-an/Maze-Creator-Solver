@@ -52,15 +52,19 @@ public class TunnelMaze extends NormalMaze {
 					queue.add(next);
 			}
 			
-			if (visitedNeigh > 1)
+			if (visitedNeigh > 1) {
+				System.out.println("maze has cycle");
 				return false;
+			}
 		}
 		
 		for (int i = 0; i < sizeR; i++)
 			for (int j = 0; j < sizeC; j++)
-				if (!visited[i][j])
+				if (!visited[i][j]) {
+					System.out.println("all visited == false" + i + "," + j);
+
 					return false;
-		
+				}
 		return true;
 	} // end of isPerfect()
 	
