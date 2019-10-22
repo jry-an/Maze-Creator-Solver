@@ -46,22 +46,44 @@ public class RecursiveBacktrackerSolver implements MazeSolver {
 			Random rand = new Random();
 			path.add(path.size(), new Cell(r, c));
 			maze.drawFtPrt(new Cell(r, c));
+			//add to cells explored
 			cellsExplored++;
+			//mark current cell as visited
 			visited[r][c] = true;
+			//print visited cell
 			System.out.println(r + " " + c);
+			//check if current cell is the exit cell
 			if (visited[maze.exit.r][maze.exit.c]){
 				solved = true;
 			}
 
-			while (getNextValidCell(maze, r, c).size() > 0 && !isSolved()) {
+			//get random coordinate from the surround cell (cell must be visitable)
+			while (getNextValidCell(maze, r, c).size() > 0 && !isSolved() || maze.map[r][c].tunnelTo != null && !visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
+				//do if current cell is not exit
 				if (maze.map[r][c] != maze.map[maze.exit.r][maze.exit.c]) {
+					if (maze.map[r][c].tunnelTo != null && !visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
+						explore(maze, maze.map[r][c].tunnelTo.r, maze.map[r][c].tunnelTo.c, path);
+					}
+					//do if there is a valid location
 					if (getNextValidCell(maze, r, c).size() > 0) {
-						if(maze.map[r][c].tunnelTo == null || visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
+						//if is tunnel && tunnel dest is not visited - explore to tunnel dest
+						//if is not tunnel
+						if (maze.map[r][c].tunnelTo == null || (maze.map[r][c].tunnelTo != null && visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c])) {
 							int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
 							explore(maze, maze.map[r][c].neigh[unvisited].r, maze.map[r][c].neigh[unvisited].c, path);
-						} else if (maze.map[r][c].tunnelTo != null && !visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
-							explore(maze, maze.map[r][c].tunnelTo.r, maze.map[r][c].tunnelTo.c, path);
+
 						}
+						//if a tunnel and tunnel dest isn't visited
+							//go to tunnel
+						//else
+
+//						if(maze.map[r][c].tunnelTo == null || visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
+//							int unvisited = getNextValidCell(maze, r, c).get(rand.nextInt(getNextValidCell(maze, r, c).size()));
+//							explore(maze, maze.map[r][c].neigh[unvisited].r, maze.map[r][c].neigh[unvisited].c, path);
+//
+//						} else if (maze.map[r][c].tunnelTo != null && !visited[maze.map[r][c].tunnelTo.r][maze.map[r][c].tunnelTo.c]) {
+//							explore(maze, maze.map[r][c].tunnelTo.r, maze.map[r][c].tunnelTo.c, path);
+//						}
 					}
 				}
 			}
