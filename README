@@ -7,9 +7,6 @@ java -cp .:mazeSolver/SampleSolver.jar MazeTester inputFilename n
 java -cp .:mazeSolver/SampleSolver.jar MazeTester example2.para y
 
 
-Link for Report:
-https://docs.google.com/document/d/13huaay4bo_HXiuv7BHwEXVcz3ar9yhENGqwgIbU8BAs/edit?usp=sharing
-
 Algorithm Links:
 
 Kruskal : http://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm
